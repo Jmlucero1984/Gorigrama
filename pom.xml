@@ -8,12 +8,12 @@
     <repositories>
         <repository>
             <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+            <name>  Please replace the dependencies in this repository with correct ones and delete this repository.</name>
             <url>file:${project.basedir}/lib</url>
         </repository>
     </repositories>
     <dependencies>
-          <dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
@@ -57,7 +57,7 @@
         </dependency>
  
         
-         <dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.6.0</version>
@@ -69,7 +69,7 @@
             <version>5.0.0-RC3</version>
             <scope>test</scope>
         </dependency>
-    
+   
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -78,8 +78,8 @@
     </properties>
     
     <!--
-        La imagen de splash va directamente en la carpeta resources del proyecto, 
-            NO DEL TARGET, sola si nomas -->
+La imagen de splash va directamente en la carpeta resources del proyecto, 
+    NO DEL TARGET, sola si nomas -->
     <name>Gorigrama</name>
     <build>
         <plugins>
@@ -99,15 +99,15 @@
                                         misc.SplashGorigrama
                                     </mainClass>
                                 </manifest>
-                                  <manifestEntries>
-              <mode>development</mode>
-              <url>${project.url}</url>
-              <SplashScreen-Image>splash.png</SplashScreen-Image>
-        
-            </manifestEntries>
+                                <manifestEntries>
+                                    <mode>development</mode>
+                                    <SplashScreen-Image>splash.png</SplashScreen-Image>
+                                    <Class-Path>DefinitionScrapper.jar</Class-Path>
+                                     <url>${project.url}</url>
+                                </manifestEntries>
                             </archive>
                             <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>                           
                             </descriptorRefs>
                         </configuration>
                     </execution>

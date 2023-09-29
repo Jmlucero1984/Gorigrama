@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\target\Gorigrama-beta-jar-with-dependencies.jar</jar>
+  <outfile>C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\Gorigrama\Gorigrama.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\splash_5so_icon.ico</icon>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>true</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>11</minVersion>
+    <maxVersion></maxVersion>
+    <opt>-Dfile.encoding=UTF8</opt>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.RC1</txtFileVersion>
+    <fileDescription>Crucigram Generator Dektop App </fileDescription>
+    <copyright>@JoseMaLucero et al developers</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.RC1</txtProductVersion>
+    <productName>Gorigrama</productName>
+    <companyName></companyName>
+    <internalName>Gorigrama</internalName>
+    <originalFilename>Gorigrama.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>CASTILIAN_SPANISH</language>
+  </versionInfo>
+  <messages>
+    <startupErr>Ocurrió un error durante la inicialización.</startupErr>
+    <jreNotFoundErr>Esta aplicación requiere tener instalado el Java Runtime Environment (JRE).</jreNotFoundErr>
+    <jreVersionErr>Esta aplicación requiere Java Runtime Environment version 11 como mínimo.</jreVersionErr>
+    <launcherErr>The registry refers to a nonexistent Java Runtime Environment installation or the runtime is corrupted.</launcherErr>
+    <instanceAlreadyExistsMsg>Ya hay una instancia activa de esta aplicación. Mediante el Task Manager (Ctrl+Alt+Supr) busque la instancia que ya está en ejecución.</instanceAlreadyExistsMsg>
+  </messages>
+</launch4jConfig>

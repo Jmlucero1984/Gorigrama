@@ -1,0 +1,26 @@
+-classpath
+'C:/Users/jmluc/.m2/repository/com/mysql/mysql-connector-j/8.0.32/mysql-connector-j-8.0.32.jar;C:/Users/jmluc/.m2/repository/com/google/protobuf/protobuf-java/3.21.9/protobuf-java-3.21.9.jar;C:/Users/jmluc/.m2/repository/org/jsoup/jsoup/1.14.3/jsoup-1.14.3.jar;C:/Users/jmluc/.m2/repository/com/formdev/flatlaf/3.2.1/flatlaf-3.2.1.jar;C:/Users/jmluc/.m2/repository/com/miglayout/miglayout-core/5.3/miglayout-core-5.3.jar;C:/Users/jmluc/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.12.1/jackson-databind-2.12.1.jar;C:/Users/jmluc/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.12.1/jackson-annotations-2.12.1.jar;C:/Users/jmluc/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.12.1/jackson-core-2.12.1.jar;C:/Users/jmluc/.m2/repository/commons-io/commons-io/2.12.0/commons-io-2.12.0.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx-swt/SNAPSHOT/javafx-swt-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx.base/SNAPSHOT/javafx.base-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx.controls/SNAPSHOT/javafx.controls-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx.fxml/SNAPSHOT/javafx.fxml-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx.graphics/SNAPSHOT/javafx.graphics-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx.media/SNAPSHOT/javafx.media-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx.swing/SNAPSHOT/javafx.swing-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/javafx.web/SNAPSHOT/javafx.web-SNAPSHOT.jar;C:/Users/jmluc/.m2/repository/unknown/binary/pixeljelly/SNAPSHOT/pixeljelly-SNAPSHOT.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'15'
+-sourcepath
+'C:/Users/jmluc/Documents/NetBeansProjects/Gorigrama/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/jmluc/Documents/NetBeansProjects/Gorigrama/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Gorigrama beta API'
+-linkoffline
+'https://docs.oracle.com/en/java/javase/15/docs/api' 'C:/Users/jmluc/Documents/NetBeansProjects/Gorigrama/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Gorigrama beta API'

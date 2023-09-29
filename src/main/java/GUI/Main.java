@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Utils.ExtensionLoader;
 import Utils.SerializedNormal;
 import Utils.imageSaver;
 import com.jml.gorigrama.GorigramaEntity;
@@ -29,14 +30,15 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import Utils.Pair;
 import com.formdev.flatlaf.FlatDarculaLaf;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.HeadlessException;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import misc.SplashGorigrama;
  
+
+import java.awt.HeadlessException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -47,63 +49,87 @@ public class Main extends javax.swing.JFrame {
     Graphics2D gr;
 
     private final int ANCHO_CELDA = 32, ALTO_CELDA = 32;
-    private final int CELDAS_H = 26, CELDAS_V =15;   // 48 x 27 
+    private final int CELDAS_H = 26, CELDAS_V = 15;   // 48 x 27 
     private int OFFSET_Y = 12, OFFSET_X = 12;
-    private final int NOM_WIDTH = 1032, NOM_HEIGHT =668 ;
+    private final int NOM_WIDTH = 1032, NOM_HEIGHT = 668;
     private int FONT_SIZE_NUM = 10, FONT_SIZE_LETTER = 11;
-    private int CHAR_LEFT_MARGIN=10;
-    private int CHAR_TOP_MARGIN=10;
-     private int NUM_LEFT_MARGIN=10;
-    private int NUM_TOP_MARGIN=10;
+    private int CHAR_LEFT_MARGIN = 10;
+    private int CHAR_TOP_MARGIN = 10;
+    private int NUM_LEFT_MARGIN = 10;
+    private int NUM_TOP_MARGIN = 10;
     GorigramaEntity crucigramaInstance;
-    
-    
+
     private Integer[][] nums;
     private int index;
     boolean banWord = false;
-    
+
     String title = " GORIGRAMAS - Desde 2023 (prácticamente desde ayer :-P) creando crucigramas para suegras       ";
-    
+
     List<Pair<Integer, String>> horizPairsList, vertiPairList;
 
     BufferedImage bufferedImg;
 
-    public Main() throws IOException {
-        
-      
-    
-        RepositorioPalabras.load();
-        initComponents();
-        OFFSET_Y= (NOM_HEIGHT-CELDAS_V*ALTO_CELDA)/2;
-        OFFSET_X= (NOM_WIDTH-CELDAS_H*ANCHO_CELDA)/2;
-        FONT_SIZE_NUM = (int) Math.round(ALTO_CELDA*0.32);
-        FONT_SIZE_LETTER = (int) Math.round(ALTO_CELDA*0.40);
-        NUM_LEFT_MARGIN=(int)( ANCHO_CELDA*0.1);
-        NUM_TOP_MARGIN=(int) (ALTO_CELDA*0.05);
-        CHAR_LEFT_MARGIN=(int)Math.round(ANCHO_CELDA-FONT_SIZE_LETTER)/2;
-        CHAR_TOP_MARGIN=(int) Math.round(ALTO_CELDA-FONT_SIZE_LETTER)/2;
+     Method method;
+     Class<?> scraperClass;
  
+    // Now you can interact with the loaded class and its methods
 
-        crearBufferAndGraphics();
-        Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/imgs/icon_small.png");
-        ImageIcon icon = new ImageIcon(image);
-        setIconImage(image);
-    
+    public Main() throws IOException {
+
+        try {
+            RepositorioPalabras.load();
+            initComponents();
+            OFFSET_Y = (NOM_HEIGHT - CELDAS_V * ALTO_CELDA) / 2;
+            OFFSET_X = (NOM_WIDTH - CELDAS_H * ANCHO_CELDA) / 2;
+            FONT_SIZE_NUM = (int) Math.round(ALTO_CELDA * 0.32);
+            FONT_SIZE_LETTER = (int) Math.round(ALTO_CELDA * 0.40);
+            NUM_LEFT_MARGIN = (int) (ANCHO_CELDA * 0.1);
+            NUM_TOP_MARGIN = (int) (ALTO_CELDA * 0.05);
+            CHAR_LEFT_MARGIN = (int) Math.round(ANCHO_CELDA - FONT_SIZE_LETTER) / 2;
+            CHAR_TOP_MARGIN = (int) Math.round(ALTO_CELDA - FONT_SIZE_LETTER) / 2;
+
+            crearBufferAndGraphics();
+            Image image = Toolkit.getDefaultToolkit().getImage("src/main/resources/imgs/icon_small.png");
+            ImageIcon icon = new ImageIcon(image);
+            setIconImage(image);
+
+            TimerTask tasknew = new TimerTask() {
+                @Override
+                public void run() {
+                    setTitle();
+                }
+            };
+            Timer timer = new Timer(true);
+            timer.scheduleAtFixedRate(tasknew, 0, 200);
+
+            /*
+            List<File> jars = Arrays.asList(new File("src/*.jar").listFiles());
+            URL[] urls = new URL[jars.size()];
+            for (int i = 0; i < jars.size(); i++) {
+                try {
+                    urls[i] = jars.get(i).toURI().toURL();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }*/
+ 
+           File file =new File("src/DefinitionScrapper.jar");
+            URL[] urls = {file.toURI().toURL()};
+            URLClassLoader childClassLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader());
+          scraperClass = Class.forName("com.jmlucero.definitionscrapper.DefinitionScrapper", true,childClassLoader);
+     
+         
         
-        
-        TimerTask tasknew = new TimerTask() {
-            @Override
-            public void run() {
-                setTitle();
-            }
-        };
-        Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(tasknew, 0, 200);
+
+            // Get the protected addURL method from the parent URLClassLoader class
+              method = scraperClass.getDeclaredMethod("getDefinition", String.class);
+
+ 
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+
     }
-    
-    
-  
-    
 
     public void setTitle() {
         char letter;
@@ -111,7 +137,6 @@ public class Main extends javax.swing.JFrame {
         title = title.substring(1).concat(String.valueOf(letter));
         this.setTitle(title);
     }
-
 
     private void crearBufferAndGraphics() {
         bufferedImg = (BufferedImage) mainPanel.createImage(mainPanel.getWidth(), mainPanel.getHeight());
@@ -121,9 +146,9 @@ public class Main extends javax.swing.JFrame {
     private void inicializar() throws IOException {
         crucigramaInstance = new GorigramaEntity(CELDAS_V, CELDAS_H);
         crucigramaInstance.generar();
- 
+
         crearBufferAndGraphics();
- 
+
     }
 
     /**
@@ -343,6 +368,11 @@ public class Main extends javax.swing.JFrame {
         leftPanel.add(wordToolsBtn);
 
         pruebaJarBtn.setText("Prueba JAR");
+        pruebaJarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pruebaJarBtnActionPerformed(evt);
+            }
+        });
         leftPanel.add(pruebaJarBtn);
 
         jSeparator3.setPreferredSize(new java.awt.Dimension(150, 15));
@@ -437,7 +467,7 @@ public class Main extends javax.swing.JFrame {
         gr.fillRect(OFFSET_X, OFFSET_Y, CELDAS_H * ANCHO_CELDA, CELDAS_V * ALTO_CELDA);
         gr.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(2f);
-        int ancho = CELDAS_H * ANCHO_CELDA ;
+        int ancho = CELDAS_H * ANCHO_CELDA;
         int alto = CELDAS_V * ALTO_CELDA;
         gr.setStroke(stroke);
         for (int j = 0; j <= CELDAS_H; j++) {
@@ -451,34 +481,34 @@ public class Main extends javax.swing.JFrame {
 
     private void drawNumbers(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawNumbers
         try {
-            if(crucigramaInstance==null) {
+            if (crucigramaInstance == null) {
                 JOptionPane.showMessageDialog(mainPanel, "No se ha inicialiado ningun crucigrama", "Atención", JOptionPane.WARNING_MESSAGE);
             } else {
-               nums = crucigramaInstance.generarNumeros();
-            String[][] lettersH = crucigramaInstance.getHorizontales();
-            String[][] lettersV = crucigramaInstance.getVerticales();
+                nums = crucigramaInstance.generarNumeros();
+                String[][] lettersH = crucigramaInstance.getHorizontales();
+                String[][] lettersV = crucigramaInstance.getVerticales();
 
-            System.out.println("ALTO : " + lettersH.length);
-            System.out.println("ANCHO : " + lettersH[0].length);
+                System.out.println("ALTO : " + lettersH.length);
+                System.out.println("ANCHO : " + lettersH[0].length);
 
-            gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_NUM));
-            for (int i = 0; i < nums[0].length; i++) {
-                for (int j = 0; j < nums.length; j++) {
-                    if (lettersH[j][i].equals(" ") && lettersV[j][i].equals(" ")) {
-                        //  &&lettersV[i][j].equals(" ")
-                        gr.fillRect(i * ANCHO_CELDA + OFFSET_X, j * ALTO_CELDA + OFFSET_Y, ANCHO_CELDA, ALTO_CELDA);
-                    }
-                    if (nums[j][i] != 0) {
-                        gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_NUM));
-                        gr.drawString(String.valueOf(nums[j][i]), i *ANCHO_CELDA + OFFSET_X+NUM_LEFT_MARGIN, j *  ALTO_CELDA + OFFSET_Y + FONT_SIZE_NUM+NUM_TOP_MARGIN);
+                gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_NUM));
+                for (int i = 0; i < nums[0].length; i++) {
+                    for (int j = 0; j < nums.length; j++) {
+                        if (lettersH[j][i].equals(" ") && lettersV[j][i].equals(" ")) {
+                            //  &&lettersV[i][j].equals(" ")
+                            gr.fillRect(i * ANCHO_CELDA + OFFSET_X, j * ALTO_CELDA + OFFSET_Y, ANCHO_CELDA, ALTO_CELDA);
+                        }
+                        if (nums[j][i] != 0) {
+                            gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_NUM));
+                            gr.drawString(String.valueOf(nums[j][i]), i * ANCHO_CELDA + OFFSET_X + NUM_LEFT_MARGIN, j * ALTO_CELDA + OFFSET_Y + FONT_SIZE_NUM + NUM_TOP_MARGIN);
+                        }
                     }
                 }
+                mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
             }
-            mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null); 
-            }
-        } catch (HeadlessException e){
-                
-            }
+        } catch (HeadlessException e) {
+
+        }
 
     }//GEN-LAST:event_drawNumbers
 
@@ -490,11 +520,11 @@ public class Main extends javax.swing.JFrame {
             for (int j = 0; j < lettersH.length; j++) {
                 if (lettersH[j][i].equals(" ") && lettersV[j][i].equals(" ")) {
                     //  &&lettersV[i][j].equals(" ")
-                  
+
                     gr.fillRect(i * ANCHO_CELDA + OFFSET_X, j * ALTO_CELDA + OFFSET_Y, ANCHO_CELDA, ALTO_CELDA);
                 } else {
-                    gr.drawString(lettersH[j][i], i *ANCHO_CELDA + OFFSET_X+CHAR_LEFT_MARGIN, j * ALTO_CELDA + OFFSET_Y  + FONT_SIZE_LETTER+CHAR_TOP_MARGIN);
-                    gr.drawString(lettersV[j][i], i *ANCHO_CELDA + OFFSET_X+CHAR_LEFT_MARGIN, j *  ALTO_CELDA + OFFSET_Y + FONT_SIZE_LETTER+CHAR_TOP_MARGIN);
+                    gr.drawString(lettersH[j][i], i * ANCHO_CELDA + OFFSET_X + CHAR_LEFT_MARGIN, j * ALTO_CELDA + OFFSET_Y + FONT_SIZE_LETTER + CHAR_TOP_MARGIN);
+                    gr.drawString(lettersV[j][i], i * ANCHO_CELDA + OFFSET_X + CHAR_LEFT_MARGIN, j * ALTO_CELDA + OFFSET_Y + FONT_SIZE_LETTER + CHAR_TOP_MARGIN);
                 }
             }
         }
@@ -502,9 +532,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_drawLetters
 
     private void editDefs(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editDefs
-        
+
         Definiciones def = new Definiciones(crucigramaInstance);
-    
+
         def.setVisible(true);
     }//GEN-LAST:event_editDefs
 
@@ -519,7 +549,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_saveImage
 
     private void generateBtnWords(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateBtnWords
-      
+
         try {
             /* try {
             inicializar();
@@ -530,31 +560,30 @@ public class Main extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }//GEN-LAST:event_generateBtnWords
 
     private void update(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update
 
         horizPairsList = new ArrayList();
-        vertiPairList = new ArrayList();  
+        vertiPairList = new ArrayList();
         crucigramaInstance.refillHorizontalWords();
         crucigramaInstance.refillVerticalWords(false);
-    
-          drawGrid(null);
-          drawNumbers(null);
-          drawLetters(null);
-          
-        
-        
+
+        drawGrid(null);
+        drawNumbers(null);
+        drawLetters(null);
+
+
     }//GEN-LAST:event_update
 
     private void forceVertical(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forceVertical
-    
-         crucigramaInstance.forceVertical();
- 
-          drawGrid(null);
-          drawNumbers(null);
-          drawLetters(null);
+
+        crucigramaInstance.forceVertical();
+
+        drawGrid(null);
+        drawNumbers(null);
+        drawLetters(null);
     }//GEN-LAST:event_forceVertical
 
     private void saveToRemoteBtn(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToRemoteBtn
@@ -571,29 +600,29 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_generarDefs
 
     private void banWordCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_banWordCheckBoxItemStateChanged
-             System.out.println("BAN WORD "+(banWord?"ENABLED":"DISABLED"));
+        System.out.println("BAN WORD " + (banWord ? "ENABLED" : "DISABLED"));
         banWord = banWordCheckBox.isSelected(); // Por las dudas evito hacer cosas como *=-1 o el operador ^=
     }//GEN-LAST:event_banWordCheckBoxItemStateChanged
 
     private void loadFromRemoteBtn(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromRemoteBtn
-       
+
         IOFile loadFile = new IOFile((boolean success, File file) -> {
             System.out.println(success);
-            if(success){
+            if (success) {
                 try {
-                    System.out.println("FILE.ABS.PATH: " +file.getAbsolutePath());
+                    System.out.println("FILE.ABS.PATH: " + file.getAbsolutePath());
                     crucigramaInstance = SerializedNormal.loadSerialized(file);
                 } catch (IOException ex) {
-                    System.out.println("EXCEPTION E: "+ex);
-                } 
+                    System.out.println("EXCEPTION E: " + ex);
+                }
             }
-        },IOFile.TipoDialog.OPEN);
-        loadFile.setVisible(true);  
+        }, IOFile.TipoDialog.OPEN);
+        loadFile.setVisible(true);
     }//GEN-LAST:event_loadFromRemoteBtn
 
     private void wordToolsBtnsaveToJson(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wordToolsBtnsaveToJson
-       WordTool wt = new WordTool(crucigramaInstance);
-       wt.setVisible(true);
+        WordTool wt = new WordTool(crucigramaInstance);
+        wt.setVisible(true);
     }//GEN-LAST:event_wordToolsBtnsaveToJson
 
     private void popupMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupMenu2ActionPerformed
@@ -614,7 +643,7 @@ public class Main extends javax.swing.JFrame {
             gr.drawLine(xx - 10, yy + 10, xx + 10, yy - 10);
             System.out.println(evt.getX() + "   " + evt.getY());
 
-            crucigramaInstance.findBannedWord((int) (xx / (ANCHO_CELDA)), (int) yy / (ALTO_CELDA),banWord);
+            crucigramaInstance.findBannedWord((int) (xx / (ANCHO_CELDA)), (int) yy / (ALTO_CELDA), banWord);
         }
 
         if (evt.getButton() == MouseEvent.BUTTON1) {
@@ -624,12 +653,12 @@ public class Main extends javax.swing.JFrame {
             Graphics2D gr = (Graphics2D) mainPanel.getGraphics();
             gr.setStroke(stroke);
             gr.setColor(Color.GREEN);
-            gr.drawOval(xx-10, yy-10, 20, 20);
+            gr.drawOval(xx - 10, yy - 10, 20, 20);
 
             //
         }
 
-        if(evt.getButton()==2) {
+        if (evt.getButton() == 2) {
             mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
             crucigramaInstance.cleanStack();
             //   popupMenu2.show(j.,xx,yy);
@@ -650,44 +679,64 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_mainPanelAncestorMoved
 
     private void loadLocalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadLocalBtnActionPerformed
-            IOFile loadFile = new IOFile((boolean success, File file) -> {
+        IOFile loadFile = new IOFile((boolean success, File file) -> {
             System.out.println(success);
-            if(success){
+            if (success) {
                 try {
-                    System.out.println("FILE.ABS.PATH: " +file.getAbsolutePath());
+                    System.out.println("FILE.ABS.PATH: " + file.getAbsolutePath());
                     crucigramaInstance = SerializedNormal.loadSerialized(file);
                 } catch (IOException ex) {
-                    System.out.println("EXCEPTION E: "+ex);
-                } 
+                    System.out.println("EXCEPTION E: " + ex);
+                }
             }
         }, IOFile.TipoDialog.OPEN);
-        loadFile.setVisible(true);  
-
-
+        loadFile.setVisible(true);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_loadLocalBtnActionPerformed
 
     private void saveLocalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveLocalBtnActionPerformed
-        if(crucigramaInstance!=null ){
-        IOFile saveFile = new IOFile((boolean success, File file) -> {
-            System.out.println(success);
-            if(success){
-                try {
-                    System.out.println("FILE.ABS.PATH: " +file.getAbsolutePath());
-                    SerializedNormal.saveSerializedNormal(crucigramaInstance,file);
-                } catch (IOException ex) {
-                    System.out.println("EXCEPTION E: "+ex);
-                } 
-            }
-        }, IOFile.TipoDialog.SAVE);
-        saveFile.setVisible(true);  }
-        else {
+        if (crucigramaInstance != null) {
+            IOFile saveFile = new IOFile((boolean success, File file) -> {
+                System.out.println(success);
+                if (success) {
+                    try {
+                        System.out.println("FILE.ABS.PATH: " + file.getAbsolutePath());
+                        SerializedNormal.saveSerializedNormal(crucigramaInstance, file);
+                    } catch (IOException ex) {
+                        System.out.println("EXCEPTION E: " + ex);
+                    }
+                }
+            }, IOFile.TipoDialog.SAVE);
+            saveFile.setVisible(true);
+        } else {
             JOptionPane.showMessageDialog(mainPanel, "No hay ningun crucigrama para guardar", "Atención", JOptionPane.WARNING_MESSAGE);
 
         }
 
     }//GEN-LAST:event_saveLocalBtnActionPerformed
+
+    private void pruebaJarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pruebaJarBtnActionPerformed
+        
+        Object result = null;
+        try {
+            // Create an instance of the class (if needed)
+            Object instance = scraperClass.newInstance();
+            // Invoke the method
+             
+            try {
+                result = method.invoke(instance, "abuelo"); // Replace with actual arguments
+            } catch (InvocationTargetException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            // Print the result
+            System.out.println("Result: " + result);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_pruebaJarBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -705,9 +754,9 @@ public class Main extends javax.swing.JFrame {
                     break;
                 }
             }
-   
-        } catch ( Exception e) {
-            System.out.println("Exception "+e);
+
+        } catch (Exception e) {
+            System.out.println("Exception " + e);
         };
         //</editor-fold>
 
