@@ -1,0 +1,44 @@
+
+
+REF 001 23/09/23
+if (largo >= 3) {
+    if (largo <= 5) {
+        indexOfLists = 0;
+    }
+    if (largo <= 7) {
+        indexOfLists = 1;
+    }
+    if (largo <= 9) {
+        indexOfLists = 2;
+    }
+    if (largo <= 11) {
+        indexOfLists = 3;
+    }
+    if (largo <= 13) {
+        indexOfLists = 4;
+    }
+    int index = 0;
+    List<String> actual = RepositorioPalabras.getPalabras_medidas().get(indexOfLists);
+    int max = actual.size();
+    while (!founded && index < max) {
+        newWord = actual.get(index);
+        if (newWord.length() <= end - init + 1 && newWord.length() >= MIN_LEN && newWord.length() % 2 == 1 && !alreadyTokenWords.contains(newWord)) {
+            boolean coincide = true;
+            for (int k = 0; k < newWord.length(); k += 2) {
+                if (!String.valueOf(newWord.charAt(k)).equals(palabrasArrayH[init + k][j])) {
+                    coincide = false;
+                }
+            }
+            if (coincide) {
+                founded = true;
+                System.out.println("VERTICAL ENCONTRADA: " + newWord);
+                alreadyTokenWords.add(newWord);
+                for (int k = 0; k < newWord.length(); k++) {
+                    palabrasArrayV[init + k][j] = String.valueOf(newWord.charAt(k));
+                }
+                i = init + newWord.length();
+            }
+        }
+        index++;
+    }
+    }***/
