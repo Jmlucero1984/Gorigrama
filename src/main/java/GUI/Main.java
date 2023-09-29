@@ -155,6 +155,7 @@ public class Main extends javax.swing.JFrame {
         loadFromRemoteBtn = new javax.swing.JButton();
         banWordCheckBox = new javax.swing.JCheckBox();
         wordToolsBtn = new javax.swing.JButton();
+        pruebaJarBtn = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         rightPanel = new javax.swing.JPanel();
         mainPanel = new javax.swing.JPanel();
@@ -340,6 +341,9 @@ public class Main extends javax.swing.JFrame {
             }
         });
         leftPanel.add(wordToolsBtn);
+
+        pruebaJarBtn.setText("Prueba JAR");
+        leftPanel.add(pruebaJarBtn);
 
         jSeparator3.setPreferredSize(new java.awt.Dimension(150, 15));
         leftPanel.add(jSeparator3);
@@ -736,6 +740,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private java.awt.MenuItem menuItem1;
     private java.awt.PopupMenu popupMenu2;
+    private javax.swing.JButton pruebaJarBtn;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JButton saveImageBtn;
     private javax.swing.JButton saveLocalBtn;
