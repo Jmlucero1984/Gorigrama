@@ -1,5 +1,6 @@
 package com.jml.gorigrama;
 
+import Utils.Direction;
 import java.io.FileNotFoundException;
 
 import java.io.IOException;
@@ -8,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import  Utils.Pair;
+import Utils.Pair;
+import Utils.WordItem;
 
 import java.util.List;
 import java.util.Random;
@@ -17,14 +19,11 @@ import java.util.Stack;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
- 
- 
- 
 
 /* @author jmlucero */
 public class GorigramaEntity implements Serializable {
 
-int MIN_LEN = 5;
+    int MIN_LEN = 5;
 
     HashMap<String, String> definiciones = new HashMap();
     String[][] palabrasArrayH;
@@ -56,8 +55,11 @@ int MIN_LEN = 5;
         numeros = new Integer[altoCeldas][anchoCeldas];
 
     }
-    
-    public GorigramaEntity(){};
+
+    public GorigramaEntity() {
+    }
+
+    ;
 
     public void generarDefiniciones() {
         definiciones = new HashMap();
@@ -68,9 +70,9 @@ int MIN_LEN = 5;
             definiciones.put(pair.second, "Definicion1?\nDefinicion2?\nDefinicion3?");
         }
     }
-    
+
     public void cleanStack() {
-       posStack.clear();
+        posStack.clear();
     }
 
     public Integer[][] generarNumeros() {
@@ -241,7 +243,7 @@ int MIN_LEN = 5;
         word = word.trim();
         System.out.println("PALABRA ENCONTRADA: " + word);
         System.out.println("ORIGINAL: " + bestMatch(word));
-        if (remove&&!word.equals("")) {
+        if (remove && !word.equals("")) {
             try {
                 RepositorioPalabras.excludeNewBanned(bestMatch(word));
             } catch (IOException ex) {
@@ -249,6 +251,82 @@ int MIN_LEN = 5;
             }
         }
         alreadyTokenWords.remove(bestMatch(word));
+    }
+
+    public void removeWord(WordItem word) {
+        if(word.getDir()==Direction.HORIZONTAL) {
+            for( int i=word.getInitX();i<=word.getEndX();i++) {
+                palabrasArrayH[word.getInitY()][i]=" ";
+            }
+            alreadyTokenWords.remove(word.getWord());
+            refillHorizontalWords();
+            //Does not return to the words source, it's supposed this is a oddly one
+        } else if (word.getDir()==Direction.VERTICAL) {
+            for( int i=word.getInitY();i<=word.getEndY();i++) {
+                palabrasArrayV[i][word.getInitX()]=" ";
+            }
+            alreadyTokenWords.remove(word.getWord());
+            refillVerticalWords(true);
+            //Does not return to the words source, it's supposed this is a oddly one
+        }
+        
+
+    }
+
+    public Pair<WordItem, WordItem> locateWords(int x, int y) {
+
+        if (y >= altoCeldas || y < 0 || x >= anchoCeldas || x < 0) {
+            System.out.println("INTRODUJO UNA COORDENADA NP VALIDA");
+            return null;
+        }
+        WordItem wh = new WordItem();
+        WordItem wv = new WordItem();
+        int hx = x;
+        int hy = y;
+        int inithX;
+        int endhX;
+        System.out.println("COORD X: " + hx);
+        System.out.println("COORD Y: " + hy);
+        String horizontalWord = "";
+
+        if (!palabrasArrayH[hy][hx].equals(" ")) {
+            while (hx != 0 && !palabrasArrayH[hy][hx - 1].equals(" ")) {
+                hx--;
+            }
+            inithX = hx;
+            while (hx != anchoCeldas && !palabrasArrayH[hy][hx].equals(" ")) {
+                horizontalWord += palabrasArrayH[hy][hx];
+                hx++;
+            }
+            endhX = hx;
+            System.out.println("PALABRA HORIZONTAL ENCONTRADA: " + horizontalWord);
+            System.out.println("ORIGINAL H: " + bestMatch(horizontalWord));
+            wh = new WordItem(bestMatch(horizontalWord), inithX, y, endhX,y , Direction.HORIZONTAL);
+        }
+        int vx = x;
+        int vy = y;
+        int initvY;
+        int endvY;
+        String verticalWord = "";
+        System.out.println("");
+        if (!palabrasArrayV[vy][vx].equals(" ")) {
+            while (vy != 0 && !palabrasArrayV[vy - 1][vx].equals(" ")) { 
+                vy--;
+            }
+            initvY = vy;
+            while (vy != altoCeldas && !palabrasArrayV[vy][vx].equals(" ")) {
+                verticalWord += palabrasArrayV[vy][vx];
+                vy++;
+            }
+            endvY = vy;
+            System.out.println("PALABRA VERTICAL ENCONTRADA: " + verticalWord);
+            System.out.println("ORIGINAL V: " + bestMatch(verticalWord));
+            wv = new WordItem(bestMatch(verticalWord), x, initvY, x,   endvY, Direction.VERTICAL);
+        }
+
+        Pair<WordItem, WordItem> foundedWords = new Pair(wh, wv);
+
+        return foundedWords;
     }
 
     private String bestMatch(String word) {
@@ -283,6 +361,34 @@ int MIN_LEN = 5;
         verticales = new ArrayList<>();
         Arrays.asList(tira.split(" ")).stream().filter(t -> !t.equals("")).forEach(t -> verticales.add(bestMatch(t)));
     }
+      /**
+     * This a second stage replace method after implementing
+     * contextual menu for oddly ones.
+     * The primitive method was
+     * {@link #refillHorizontalWords()}.
+     *
+     */
+    public void replaceHorizontals() {
+     for (int i = 0; i < altoCeldas; i += 2) {
+          int init = 0, end = 0;
+            for (int j = 0; j < anchoCeldas; j++) {
+                    if (palabrasArrayH[i][j].equals(" ")) {
+                    init = j;
+                    while (j < anchoCeldas - 1 && palabrasArrayH[i][j + 1].equals(" ")) {
+                        j++;
+                    }
+                    end = j;
+                }
+                 int largo = end - init;
+                 
+                
+            }
+        }
+     
+    
+    
+    }
+    
 
     public void refillHorizontalWords() {
         imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayH);
@@ -308,29 +414,28 @@ int MIN_LEN = 5;
                         largo++;
                     }
 
-                    
                     boolean trim = largo <= 10 || rdm.nextGaussian() <= 0;
-                    boolean founded=false;
+                    boolean founded = false;
                     boolean goodFit;
-                    while(!founded) {
+                    while (!founded) {
                         String[] resultado = encontrarPalabras(largo, RepositorioPalabras.getPalabras(), alreadyTokenWords, trim);
-                       goodFit=true;
+                        goodFit = true;
                         for (int k = 0; k < resultado.length; k++) {
 
-                            if(!(palabrasArrayV[i][init + k].equals(resultado[k])||palabrasArrayV[i][init + k].equalsIgnoreCase(" "))){
-                                goodFit=false;
+                            if (!(palabrasArrayV[i][init + k].equals(resultado[k]) || palabrasArrayV[i][init + k].equalsIgnoreCase(" "))) {
+                                goodFit = false;
                                 break;
                             }
                         }
-                        if(goodFit) {
+                        if (goodFit) {
                             for (int k = 0; k < resultado.length; k++) {
-                                  palabrasArrayH[i][init + k] = resultado[k];
+                                palabrasArrayH[i][init + k] = resultado[k];
                             }
-                            founded=true;
+                            founded = true;
                         }
-                     
+
                     }
-                    
+
                 }
             }
         }
@@ -342,61 +447,59 @@ int MIN_LEN = 5;
     public void refillVerticalWords(boolean allGrid) {
 
         //imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayV);
- 
         String newWord;
         boolean founded = false;
-        boolean goodFit=true;
-        int indexOfPalabras=0;
+        boolean goodFit = true;
+        int indexOfPalabras = 0;
         boolean continuar = true;
-    
-        for (int j = 0; j < anchoCeldas&&continuar; j+=2) {
+
+        for (int j = 0; j < anchoCeldas && continuar; j += 2) {
             int init = 0, end = 0;
-            for (int i = 0; i < altoCeldas-1&&continuar; i +=2) {
-                 
+            for (int i = 0; i < altoCeldas - 1 && continuar; i += 2) {
+
                 if (palabrasArrayV[i][j].equals(" ")) {
                     init = i;
-                    end= i;
+                    end = i;
                     while (end < altoCeldas - 1 && palabrasArrayV[end + 1][j].equals(" ")) {
                         end++;
                     }
-                    
+
                 }
                 int largo = end - init + 1;
-         /*
+                /*
             if (end == altoCeldas - 1) {
                     largo++;
                 }*/
-                if(largo<3) continue;
-                while(!founded&&indexOfPalabras<RepositorioPalabras.getPalabrasImpares().size()) {
-                    newWord=RepositorioPalabras.getPalabrasImpares().get(indexOfPalabras);
-                    if(newWord.length()<=largo &&!alreadyTokenWords.contains(newWord)){
-                        goodFit=true;
-                        for(int k=0;k<newWord.length();k+=2){
-                            if(!(newWord.substring(k, k+1).equalsIgnoreCase(palabrasArrayH[init+k][j]))){
-                                goodFit=false;
+                if (largo < 3) {
+                    continue;
+                }
+                while (!founded && indexOfPalabras < RepositorioPalabras.getPalabrasImpares().size()) {
+                    newWord = RepositorioPalabras.getPalabrasImpares().get(indexOfPalabras);
+                    if (newWord.length() <= largo && !alreadyTokenWords.contains(newWord)) {
+                        goodFit = true;
+                        for (int k = 0; k < newWord.length(); k += 2) {
+                            if (!(newWord.substring(k, k + 1).equalsIgnoreCase(palabrasArrayH[init + k][j]))) {
+                                goodFit = false;
                                 break;
                             }
                         }
-                        if(goodFit) {
-                            founded=true;
+                        if (goodFit) {
+                            founded = true;
                             for (int k = 0; k < newWord.length(); k++) {
-                                palabrasArrayV[init+k][j]=newWord.substring(k,k+1);
+                                palabrasArrayV[init + k][j] = newWord.substring(k, k + 1);
                                 alreadyTokenWords.add(newWord);
-                                
-                                
+
                             }
-                            i+=newWord.length()-1;
-                            continuar=allGrid;
+                            i += newWord.length() - 1;
+                            continuar = allGrid;
                         }
                     }
                     indexOfPalabras++;
-                    
-                    
+
                 }
-                
+
                 //REF OLD CODE 001
-                 
-              indexOfPalabras=0;
+                indexOfPalabras = 0;
                 founded = false;
             }
         }
@@ -492,8 +595,6 @@ int MIN_LEN = 5;
         }
         return used;
     }
-
-   
 
     public void forceVertical() {
         imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayH);
@@ -607,6 +708,7 @@ int MIN_LEN = 5;
     public List<Pair<Integer, String>> getVertiPairList() {
         return vertiPairList;
     }
+
     public List<String> getListVerticales() {
         return verticales;
     }
@@ -623,8 +725,8 @@ int MIN_LEN = 5;
         return palabrasArrayV;
     }
 
-    public  void setMIN_LEN(int MIN_LEN) {
-       this.MIN_LEN = MIN_LEN;
+    public void setMIN_LEN(int MIN_LEN) {
+        this.MIN_LEN = MIN_LEN;
     }
 
     public void setDefiniciones(HashMap<String, String> definiciones) {
@@ -643,7 +745,7 @@ int MIN_LEN = 5;
         this.horizontales = horizontales;
     }
 
-    public  int getMIN_LEN() {
+    public int getMIN_LEN() {
         return MIN_LEN;
     }
 
@@ -690,5 +792,5 @@ int MIN_LEN = 5;
     public void setAltoCeldas(int altoCeldas) {
         this.altoCeldas = altoCeldas;
     }
-    
+
 }

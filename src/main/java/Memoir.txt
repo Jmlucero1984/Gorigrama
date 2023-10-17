@@ -1,0 +1,88 @@
+For developing stage: Gorigrama->Run File
+
+
+As a first attemp we work with a web-sourced list of words from RAE. The main issue is
+that web lists many, many antique Spanish words (may be from 15 century or prior), therefore 
+it becomes a quite difficult to figure that words out.
+We are still working in GUI functionalities to deal with these "missleading" specimens, but 
+a "cut to the chase" approach is neede, just to change the words source from and older to a newer, like the
+Brittanica Encyclopedia.
+
+**For a reason, form time to time, when a vertical word init letter and a horizontal one mathces at the same place, 
+the corresponding number and its definitions appear for the Horizontal defs, but no for Vertical... dig deeper on that!
+
+Using WordFileProcessor we take as data input txt files for each letter, scapped semiautomatically
+from Encyclopedia Britannica. There are too many repeated words, and so many more with special chars
+so it produces 2 files.
+- brit_<lowercase letter>_cleaned.txt : The list of all non reapeating lowercased words. Despite the 
+implementation of set, we still get comma ending words, and hiphen-in-the-middle ones. A manual
+inspection is required.
+-brit_<lowercase letter>_differences.txt: The list of all words from Britannica no already listed in 
+the RAE words files.
+
+16/10
+Improved the algorithm for removing oddly ones, using the WordItem class
+
+
+
+java -jar Gorigrama-beta-jar-with-dependencies.jar
+
+Up to this day, 15/10, we deploying a jar with "Palabras","imgs" (with icon) and "font" folder inside.
+We need to put this content inside <jar foder>/src/main/resources/
+We must place DefinitionScrapper.jar inside src folder
+
+
+Launch4j:
+Dont forget to put this to deal with spanish chars
+En JRE, en Options, JVM options: 
+-Dfile.encoding=UTF8  
+
+This xml config file in Launch4j to be used as a guide:
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\target\Gorigrama-beta-jar-with-dependencies.jar</jar>
+  <outfile>C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\Gorigrama\Gorigrama.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\splash_5so_icon.ico</icon>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>true</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>11</minVersion>
+    <maxVersion></maxVersion>
+    <opt>-Dfile.encoding=UTF8</opt>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.RC1</txtFileVersion>
+    <fileDescription>Crucigram Generator Dektop App </fileDescription>
+    <copyright>@JoseMaLucero et al developers</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.RC1</txtProductVersion>
+    <productName>Gorigrama</productName>
+    <companyName></companyName>
+    <internalName>Gorigrama</internalName>
+    <originalFilename>Gorigrama.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>CASTILIAN_SPANISH</language>
+  </versionInfo>
+  <messages>
+    <startupErr>Ocurrió un error durante la inicialización.</startupErr>
+    <jreNotFoundErr>Esta aplicación requiere tener instalado el Java Runtime Environment (JRE).</jreNotFoundErr>
+    <jreVersionErr>Esta aplicación requiere Java Runtime Environment version 11 como mínimo.</jreVersionErr>
+    <launcherErr>The registry refers to a nonexistent Java Runtime Environment installation or the runtime is corrupted.</launcherErr>
+    <instanceAlreadyExistsMsg>Ya hay una instancia activa de esta aplicación. Mediante el Task Manager (Ctrl+Alt+Supr) busque la instancia que ya está en ejecución.</instanceAlreadyExistsMsg>
+  </messages>
+</launch4jConfig>

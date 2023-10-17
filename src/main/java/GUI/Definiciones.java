@@ -31,8 +31,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import javax.swing.text.Document;
-import  Utils.Pair;
- 
+import Utils.Pair;
+
 /**
  *
  * @author jmlucero
@@ -47,15 +47,14 @@ public class Definiciones extends javax.swing.JFrame {
     boolean saveAllSQL = false;
     boolean editing = false;
     Executor resetStatusText = CompletableFuture.delayedExecutor(3, TimeUnit.SECONDS);
-     
+
     public Definiciones() {
-    
- 
+
         initComponents();
     }
-    
+
     private void scheduleResetStatus() {
-        resetStatusText.execute(()-> statusJLabel.setText("STATUS"));
+        resetStatusText.execute(() -> statusJLabel.setText("STATUS"));
     }
 
     public Definiciones(GorigramaEntity crucigrama) {
@@ -87,14 +86,13 @@ public class Definiciones extends javax.swing.JFrame {
         System.out.println("Cantidad de Defs Verticales: " + listaV.size());
         String[] strings = new String[listaV.size()];
         for (int i = 0; i < strings.length; i++) {
-            strings[i] = listaV.get(i).first+ ". " + listaV.get(i).second;
+            strings[i] = listaV.get(i).first + ". " + listaV.get(i).second;
         }
         verticalItemList.setModel(new javax.swing.AbstractListModel<String>() {
             @Override
             public int getSize() {
                 return strings.length;
             }
-
             @Override
             public String getElementAt(int i) {
                 return strings[i];
@@ -355,7 +353,6 @@ public class Definiciones extends javax.swing.JFrame {
                 }
                 return null;
             }
-
             @Override
             public void done() {
                 Toolkit.getDefaultToolkit().beep();
@@ -396,7 +393,7 @@ public class Definiciones extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_verticalItemListValueChanged
 
-    
+
     private void modificarDef(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarDef
         crucigrama.getDefiniciones().replace(palabraSeleccionada.getText(), definitionTextPane.getText());
         statusJLabel.setText(palabraSeleccionada.getText() + " was saved locally...");
@@ -408,26 +405,26 @@ public class Definiciones extends javax.swing.JFrame {
     private void updateDB(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDB
         if (saveAllSQL) {
             statusJLabel.setText("Saving all new defs to DB");
-             try {
-            
+            try {
+
                 JDBC_connection.updateAll(crucigrama.getDefiniciones());
-            }catch (ClassNotFoundException | SQLException e) {
-            System.out.println("EXCEPTION: " + e);
-             statusJLabel.setText("Ocurrió un error al tratar de guardar defs");
-        } 
-        statusJLabel.setText("All defs saved successfully");
-        
-        }  else {
-             statusJLabel.setText("Saving new def to DB");
-            try{
-                JDBC_connection.update(palabraSeleccionada.getText(), definitionTextPane.getText());
-            } catch(ClassNotFoundException | SQLException e) {
+            } catch (ClassNotFoundException | SQLException e) {
                 System.out.println("EXCEPTION: " + e);
-                 statusJLabel.setText("Ocurrió un error al tratar de guarda la def");
+                statusJLabel.setText("Ocurrió un error al tratar de guardar defs");
             }
-             statusJLabel.setText("Def saved successfully");
-        } 
-           scheduleResetStatus();
+            statusJLabel.setText("All defs saved successfully");
+
+        } else {
+            statusJLabel.setText("Saving new def to DB");
+            try {
+                JDBC_connection.update(palabraSeleccionada.getText(), definitionTextPane.getText());
+            } catch (ClassNotFoundException | SQLException e) {
+                System.out.println("EXCEPTION: " + e);
+                statusJLabel.setText("Ocurrió un error al tratar de guarda la def");
+            }
+            statusJLabel.setText("Def saved successfully");
+        }
+        scheduleResetStatus();
     }//GEN-LAST:event_updateDB
 
     private void cargadDefsFromDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargadDefsFromDBActionPerformed
@@ -442,7 +439,6 @@ public class Definiciones extends javax.swing.JFrame {
         String cadena = "";
         try {
             cadena = Scrap.getWord(palabraSeleccionada.getText(), Scrap.DICT.GOOGLE);
-
         } catch (IOException ex) {
             Logger.getLogger(Definiciones.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -456,7 +452,7 @@ public class Definiciones extends javax.swing.JFrame {
         idExporter.addTitle("HORIZONTALES");
         for (Pair<Integer, String> pair : crucigrama.getHorizPairsList()) {
             String def = crucigrama.getDefiniciones().get(pair.second.split("\n")[0]);
-            idExporter.addItem(String.valueOf(pair.first), crucigrama.getDefiniciones().get(def));
+            idExporter.addItem(String.valueOf(pair.first), def);
         }
         idExporter.addTitle("VERTICALES");
         for (Pair<Integer, String> pair : crucigrama.getVertiPairList()) {
@@ -465,7 +461,6 @@ public class Definiciones extends javax.swing.JFrame {
         }
         try {
             idExporter.saveToFile();
-
         } catch (IOException ex) {
             Logger.getLogger(Definiciones.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -478,48 +473,42 @@ public class Definiciones extends javax.swing.JFrame {
         System.out.println("SAVE ALL STATE? : " + saveAllSQL);
     }//GEN-LAST:event_saveAllCheckBoxItemStateChanged
 
-    
-    
     public void latentEditing() {
         Timer tm = new Timer();
-        TimerTask tt= new TimerTask(){
-              int green=125;
-              int step=+1;
-         
+        TimerTask tt = new TimerTask() {
+            int green = 125;
+            int step = +1;
+
             @Override
             public void run() {
-              green+=step;
-              if(green>=255 || green<=1) {
-                  step*=-1;
-              }
-                System.out.println("green: "+green);
-               editModeToggle.setBackground(new Color(125,green,125));
-                
-                 
+                green += step;
+                if (green >= 255 || green <= 1) {
+                    step *= -1;
+                }
+                System.out.println("green: " + green);
+                editModeToggle.setBackground(new Color(125, green, 125));
             }
-        
-    };
+        };
         tm.schedule(tt, 0, 120);
     }
     private void editModeToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editModeToggleActionPerformed
-        editing^=editing;
-        if(editModeToggle.isSelected()){
+        editing ^= editing;
+        if (editModeToggle.isSelected()) {
             System.out.println("EDITING");
             cargadDefsFromDB.setEnabled(false);
             cargarDefBtn.setEnabled(false);
-                    updateDB.setEnabled(false);
-                    saveAllCheckBox.setEnabled(false);
-                
-            
+            updateDB.setEnabled(false);
+            saveAllCheckBox.setEnabled(false);
+
         } else {
             System.out.println("UNLOCKED");
-              cargadDefsFromDB.setEnabled(true);
+            cargadDefsFromDB.setEnabled(true);
             cargarDefBtn.setEnabled(true);
-                    updateDB.setEnabled(true);
-                     saveAllCheckBox.setEnabled(true);
-                      // latentEditing();
+            updateDB.setEnabled(true);
+            saveAllCheckBox.setEnabled(true);
+            // latentEditing();
         }
-      
+
     }//GEN-LAST:event_editModeToggleActionPerformed
 
     /**

@@ -1,7 +1,3 @@
-b.
-b.a.t
-b1
-baader-meinhof
 baal
 baalbek
 baat
@@ -214,7 +210,6 @@ banting
 bantues
 bantustan
 banzer
-bao-dai
 baobab
 baojia
 baptist
@@ -345,7 +340,6 @@ basora
 basquetbol
 bass
 bassano
-basse-terre
 basset
 basseterre
 bassi
@@ -450,7 +444,7 @@ beaumarchais
 beaumont
 beauregard
 beauvais
-beaux-arts
+beauxarts
 bebel
 bebey
 bebida
@@ -486,7 +480,7 @@ beersheba
 beethoven
 begawan
 begin
-beginner’s
+beginner
 begonia
 behaismo
 behan
@@ -508,7 +502,6 @@ bejterev
 bekaa
 bekesy
 bel
-bel-sar-usur
 bela
 belafonte
 belarmino
@@ -571,7 +564,6 @@ benceno
 bench
 bend
 bendicion
-bene-israel
 benedetti
 benedetto
 benedict
@@ -605,7 +597,6 @@ bentinck
 bentley
 benton
 benue
-benue-congo
 benz
 benzer
 beocia
@@ -631,7 +622,7 @@ berg
 bergamoto
 bergantin
 bergen
-bergen-belsen
+bergenbelsen
 berger
 bergerac
 bergey
@@ -664,7 +655,7 @@ bernard
 bernardino
 bernardo
 bernays
-berners-lee
+bernerslee
 bernes
 bernhard
 bernhardi
@@ -700,7 +691,6 @@ bessey
 besson
 best
 bestiario
-bet-el
 beta
 betancourt
 betarraga
@@ -1116,7 +1106,7 @@ bosanquet
 bosch
 bosco
 bose
-bose-einstein
+boseeinstein
 bosforo
 bosna
 bosnia
@@ -1167,12 +1157,10 @@ bourdieu
 bourgeois
 bourges
 bourgogne
-bourke-white
 bournemouth
 bournonville
 boursiquot
 boutros
-boutros-ghali
 bouts
 bouvines
 bouzouki
@@ -1211,7 +1199,6 @@ bragg
 brahe
 brahim
 brahma
-brahma-loka
 brahmagupta
 brahman
 brahmana
@@ -1274,7 +1261,7 @@ breshkovski
 breslau
 breslin
 bresson
-brest-litovsk
+brestlitovsk
 bretagne
 bretana
 bretigny
@@ -1305,13 +1292,11 @@ brighton
 brigida
 brigit
 brigitte
-brillat-savarin
 brillo
 brinkman
 briofi
 briozoo
 brisbane
-brise-soleil
 brisgovia
 brissot
 bristol
@@ -1319,7 +1304,6 @@ britain
 britania
 britanico
 british
-british-american
 brittany
 brixia
 brno
@@ -1432,7 +1416,7 @@ budismo
 buell
 buena
 buenaventura
-buenos-aires
+buenosaires
 buey
 bufalo
 buffalo
@@ -1470,15 +1454,12 @@ bulimia
 bull
 bulldog
 buller
-bulletin-board
 bullock
 bulow
 bultmann
 bulwer
-bulwer-lytton
 bumedian
 bumeran
-bunau-varilla
 bundelkhand
 bundestag
 bundy
@@ -1518,7 +1499,6 @@ burlesque
 burlingame
 burlington
 burnaby
-burne-jones
 burnet
 burnett
 burney

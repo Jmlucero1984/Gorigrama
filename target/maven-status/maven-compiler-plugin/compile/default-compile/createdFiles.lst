@@ -8,6 +8,7 @@ Utils\IDExporter.class
 GUI\Definiciones$7.class
 GUI\Prueba$3.class
 com\jml\gifgeneratorgui\FileTypeFilter.class
+Utils\WordItem.class
 GUI\WordTool$8.class
 GUI\WordTool$5.class
 GUI\Main$11.class
@@ -28,6 +29,7 @@ Utils\ExtensionLoader.class
 GUI\Main$12.class
 GUI\Main$5.class
 Utils\SerializedJson.class
+GUI\Main$23.class
 Utils\CRUD_Serialized_DB.class
 GUI\Main$18.class
 GUI\Prueba.class
@@ -39,6 +41,7 @@ Utils\WordsFileProcessor.class
 GUI\Main$19.class
 GUI\Definiciones$6.class
 GUI\IOFile$2.class
+Utils\Direction.class
 GUI\Definiciones$3.class
 Utils\CallBackFn.class
 GUI\PruebaInDesign.class

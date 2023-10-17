@@ -26,6 +26,7 @@ public class Gorigrama {
             //UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel"); // FEITO
             //UIManager.setLookAndFeel( "javax.swing.plaf.nimbus.NimbusLookAndFeel"); // MAC
          UIManager.setLookAndFeel(new FlatDarculaLaf());
+         
             /*Metal
                 Nimbus
                 CDE/Motif

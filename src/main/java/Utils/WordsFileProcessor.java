@@ -15,7 +15,7 @@ import java.util.TreeSet;
 /* @author jmlucero */
 public class WordsFileProcessor {
 
-    public static void proccessFiles() throws FileNotFoundException, IOException {
+    public static void proccessFiles(String letter) throws FileNotFoundException, IOException {
         String tira = "A";
 
         List<String> palabras_RAE = new ArrayList<>();
@@ -26,9 +26,7 @@ public class WordsFileProcessor {
         BufferedReader br = null;
         String st;
         /*************************************/
-        
-        String letter="b";
-        
+     
         /************************************/
 
         String path = "src\\main\\resources\\Palabras\\"+letter.toUpperCase()+".txt";

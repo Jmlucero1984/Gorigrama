@@ -29,16 +29,31 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import Utils.Pair;
+import Utils.WordItem;
 import com.formdev.flatlaf.FlatDarculaLaf;
- 
 
 import java.awt.HeadlessException;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JMenuItem;
+
 import javax.swing.JOptionPane;
+
+import javax.swing.JPopupMenu;
+import javax.swing.plaf.PopupMenuUI;
+import javax.swing.plaf.basic.BasicPopupMenuUI;
 
 /**
  *
@@ -58,22 +73,23 @@ public class Main extends javax.swing.JFrame {
     private int NUM_LEFT_MARGIN = 10;
     private int NUM_TOP_MARGIN = 10;
     GorigramaEntity crucigramaInstance;
+     JPopupMenu jpm = new JPopupMenu("ContexMenu");
 
     private Integer[][] nums;
     private int index;
     boolean banWord = false;
+    JPopupMenu popupmenu = new JPopupMenu();
 
     String title = " GORIGRAMAS - Desde 2023 (prácticamente desde ayer :-P) creando crucigramas para suegras       ";
 
     List<Pair<Integer, String>> horizPairsList, vertiPairList;
 
     BufferedImage bufferedImg;
+    Executor resetStatusText = CompletableFuture.delayedExecutor(15, TimeUnit.MILLISECONDS);
+    Method method;
+    Class<?> scraperClass;
 
-     Method method;
-     Class<?> scraperClass;
- 
     // Now you can interact with the loaded class and its methods
-
     public Main() throws IOException {
 
         try {
@@ -101,33 +117,19 @@ public class Main extends javax.swing.JFrame {
             };
             Timer timer = new Timer(true);
             timer.scheduleAtFixedRate(tasknew, 0, 200);
-
-            /*
-            List<File> jars = Arrays.asList(new File("src/*.jar").listFiles());
-            URL[] urls = new URL[jars.size()];
-            for (int i = 0; i < jars.size(); i++) {
-                try {
-                    urls[i] = jars.get(i).toURI().toURL();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }*/
- 
-           File file =new File("src/DefinitionScrapper.jar");
+            File file = new File("src/DefinitionScrapper.jar");
             URL[] urls = {file.toURI().toURL()};
             URLClassLoader childClassLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader());
-          scraperClass = Class.forName("com.jmlucero.definitionscrapper.DefinitionScrapper", true,childClassLoader);
-     
-         
-        
+            scraperClass = Class.forName("com.jmlucero.definitionscrapper.DefinitionScrapper", true, childClassLoader);
 
             // Get the protected addURL method from the parent URLClassLoader class
-              method = scraperClass.getDeclaredMethod("getDefinition", String.class);
+            method = scraperClass.getDeclaredMethod("getDefinition", String.class);
+            jpm.setLightWeightPopupEnabled(false);
+            //mainPanel.setComponentPopupMenu(jpm);
 
- 
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
 
     }
 
@@ -158,9 +160,11 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        popupMenu2 = new java.awt.PopupMenu();
-        menuItem1 = new java.awt.MenuItem();
-        checkboxMenuItem1 = new java.awt.CheckboxMenuItem();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         mainContainer = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
         generateBtn = new javax.swing.JButton();
@@ -185,20 +189,21 @@ public class Main extends javax.swing.JFrame {
         rightPanel = new javax.swing.JPanel();
         mainPanel = new javax.swing.JPanel();
 
-        popupMenu2.setLabel("popupMenu2");
-        popupMenu2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                popupMenu2ActionPerformed(evt);
-            }
-        });
+        jPopupMenu1.setDoubleBuffered(true);
+        jPopupMenu1.setLightWeightPopupEnabled(false);
 
-        menuItem1.setLabel("menuItem1");
-        popupMenu2.add(menuItem1);
-        popupMenu2.addSeparator();
-        checkboxMenuItem1.setLabel("checkboxMenuItem1");
-        popupMenu2.add(checkboxMenuItem1);
+        jMenu1.setText("jMenu1");
 
-        popupMenu2.getAccessibleContext().setAccessibleParent(mainPanel);
+        jMenuItem1.setText("jMenuItem1");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("jMenuItem2");
+        jMenu1.add(jMenuItem2);
+
+        jPopupMenu1.add(jMenu1);
+
+        jMenuItem3.setText("jMenuItem3");
+        jPopupMenu1.add(jMenuItem3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -207,6 +212,11 @@ public class Main extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1250, 750));
         setPreferredSize(new java.awt.Dimension(1060, 725));
         setResizable(false);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
+            }
+        });
 
         mainContainer.setLayout(new javax.swing.BoxLayout(mainContainer, javax.swing.BoxLayout.LINE_AXIS));
 
@@ -381,8 +391,16 @@ public class Main extends javax.swing.JFrame {
         mainContainer.add(leftPanel);
 
         rightPanel.setPreferredSize(new java.awt.Dimension(1120, 674));
+        rightPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                rightPanelMouseReleased(evt);
+            }
+        });
 
         mainPanel.setForeground(new java.awt.Color(153, 51, 0));
+        mainPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        mainPanel.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+        mainPanel.setInheritsPopupMenu(true);
         mainPanel.setMaximumSize(new java.awt.Dimension(1100, 750));
         mainPanel.setMinimumSize(new java.awt.Dimension(1008, 650));
         mainPanel.setPreferredSize(new java.awt.Dimension(1032, 668));
@@ -532,14 +550,11 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_drawLetters
 
     private void editDefs(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editDefs
-
         Definiciones def = new Definiciones(crucigramaInstance);
-
         def.setVisible(true);
     }//GEN-LAST:event_editDefs
 
     private void saveImage(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImage
-
         try {
             imageSaver.save(bufferedImg, CELDAS_H * ANCHO_CELDA, CELDAS_V * ALTO_CELDA);
         } catch (IOException ex) {
@@ -551,11 +566,6 @@ public class Main extends javax.swing.JFrame {
     private void generateBtnWords(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateBtnWords
 
         try {
-            /* try {
-            inicializar();
-            } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
             inicializar();
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -569,18 +579,14 @@ public class Main extends javax.swing.JFrame {
         vertiPairList = new ArrayList();
         crucigramaInstance.refillHorizontalWords();
         crucigramaInstance.refillVerticalWords(false);
-
         drawGrid(null);
         drawNumbers(null);
         drawLetters(null);
-
-
     }//GEN-LAST:event_update
 
     private void forceVertical(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forceVertical
 
         crucigramaInstance.forceVertical();
-
         drawGrid(null);
         drawNumbers(null);
         drawLetters(null);
@@ -588,7 +594,6 @@ public class Main extends javax.swing.JFrame {
 
     private void saveToRemoteBtn(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToRemoteBtn
         try {
-            //SerializedJson.saveToJson(crucigramaInstance);
             SerializedNormal.saveSerializedNormal(crucigramaInstance);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -624,10 +629,12 @@ public class Main extends javax.swing.JFrame {
         WordTool wt = new WordTool(crucigramaInstance);
         wt.setVisible(true);
     }//GEN-LAST:event_wordToolsBtnsaveToJson
+    private void scheduleResetStatus(MouseEvent evt) {
+        resetStatusText.execute(() -> {
 
-    private void popupMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_popupMenu2ActionPerformed
-        System.out.println("NOTHING");        // TODO add your handling code here:
-    }//GEN-LAST:event_popupMenu2ActionPerformed
+        });
+    }
+
 
     private void mainPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseReleased
 
@@ -637,13 +644,45 @@ public class Main extends javax.swing.JFrame {
             System.out.println("MOUSE CLICKED BUTTON 3");
             Stroke stroke = new BasicStroke(5f);
             Graphics2D gr = (Graphics2D) mainPanel.getGraphics();
+
             gr.setStroke(stroke);
             gr.setColor(Color.RED);
             gr.drawLine(xx - 10, yy - 10, xx + 10, yy + 10);
             gr.drawLine(xx - 10, yy + 10, xx + 10, yy - 10);
             System.out.println(evt.getX() + "   " + evt.getY());
+       
+               jpm.removeAll();
+           // jpm.setOpaque(false);
+           Pair <WordItem,WordItem> foundedWords = crucigramaInstance.locateWords((int) ((xx-OFFSET_X) / (ANCHO_CELDA)), (int) (yy-OFFSET_Y) / (ALTO_CELDA));
+           if(foundedWords.first!=null) {
+           
+             
+               JMenuItem h=new JMenuItem(foundedWords.first.getWord());
+            
+               h.addActionListener((ActionEvent ae) -> {
+                   System.out.println(foundedWords.first.getWord());
+                   crucigramaInstance.removeWord(foundedWords.first);
+               });
+                 jpm.add(h);
+           }
+           if(foundedWords.second!=null) {
+               
+                  JMenuItem v=new JMenuItem(foundedWords.second.getWord());
+               v.addActionListener((ActionEvent ae) -> {
+                   System.out.println(foundedWords.second.getWord());
+                   crucigramaInstance.removeWord(foundedWords.second);
+               });
+          
+            jpm.add(v);
+           }
+          
 
-            crucigramaInstance.findBannedWord((int) (xx / (ANCHO_CELDA)), (int) yy / (ALTO_CELDA), banWord);
+            
+            
+           jpm.show(mainPanel, evt.getX(), evt.getY()); 
+          
+ 
+          
         }
 
         if (evt.getButton() == MouseEvent.BUTTON1) {
@@ -655,13 +694,12 @@ public class Main extends javax.swing.JFrame {
             gr.setColor(Color.GREEN);
             gr.drawOval(xx - 10, yy - 10, 20, 20);
 
-            //
         }
 
         if (evt.getButton() == 2) {
             mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
             crucigramaInstance.cleanStack();
-            //   popupMenu2.show(j.,xx,yy);
+
         }
 
     }//GEN-LAST:event_mainPanelMouseReleased
@@ -717,13 +755,13 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_saveLocalBtnActionPerformed
 
     private void pruebaJarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pruebaJarBtnActionPerformed
-        
+
         Object result = null;
         try {
             // Create an instance of the class (if needed)
             Object instance = scraperClass.newInstance();
             // Invoke the method
-             
+
             try {
                 result = method.invoke(instance, "abuelo"); // Replace with actual arguments
             } catch (InvocationTargetException ex) {
@@ -737,6 +775,14 @@ public class Main extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_pruebaJarBtnActionPerformed
+
+    private void rightPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rightPanelMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rightPanelMouseReleased
+
+    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
+
+    }//GEN-LAST:event_formMouseReleased
 
     /**
      * @param args the command line arguments
@@ -774,11 +820,15 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox banWordCheckBox;
-    private java.awt.CheckboxMenuItem checkboxMenuItem1;
     private javax.swing.JButton defsBtn;
     private javax.swing.JButton drawGridBtn;
     private javax.swing.JButton forceVerticalBtn;
     private javax.swing.JButton generateBtn;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -787,8 +837,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton loadLocalBtn;
     private javax.swing.JPanel mainContainer;
     private javax.swing.JPanel mainPanel;
-    private java.awt.MenuItem menuItem1;
-    private java.awt.PopupMenu popupMenu2;
     private javax.swing.JButton pruebaJarBtn;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JButton saveImageBtn;
