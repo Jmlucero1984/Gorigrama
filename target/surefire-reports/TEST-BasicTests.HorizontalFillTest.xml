@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="BasicTests.HorizontalFillTest" time="0.286" tests="31" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="20"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\target\test-classes;C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\target\classes;C:\Users\jmluc\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\jmluc\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\jmluc\.m2\repository\org\mockito\mockito-junit-jupiter\3.7.7\mockito-junit-jupiter-3.7.7.jar;C:\Users\jmluc\.m2\repository\org\mockito\mockito-core\3.7.7\mockito-core-3.7.7.jar;C:\Users\jmluc\.m2\repository\net\bytebuddy\byte-buddy\1.10.19\byte-buddy-1.10.19.jar;C:\Users\jmluc\.m2\repository\net\bytebuddy\byte-buddy-agent\1.10.19\byte-buddy-agent-1.10.19.jar;C:\Users\jmluc\.m2\repository\org\objenesis\objenesis\3.1\objenesis-3.1.jar;C:\Users\jmluc\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.7.0\junit-jupiter-api-5.7.0.jar;C:\Users\jmluc\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\jmluc\.m2\repository\org\junit\platform\junit-platform-commons\1.7.0\junit-platform-commons-1.7.0.jar;C:\Users\jmluc\.m2\repository\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar;C:\Users\jmluc\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\jmluc\.m2\repository\org\jsoup\jsoup\1.14.3\jsoup-1.14.3.jar;C:\Users\jmluc\.m2\repository\com\formdev\flatlaf\3.2.1\flatlaf-3.2.1.jar;C:\Users\jmluc\.m2\repository\com\miglayout\miglayout-core\5.3\miglayout-core-5.3.jar;C:\Users\jmluc\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.12.1\jackson-databind-2.12.1.jar;C:\Users\jmluc\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.12.1\jackson-annotations-2.12.1.jar;C:\Users\jmluc\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.12.1\jackson-core-2.12.1.jar;C:\Users\jmluc\.m2\repository\commons-io\commons-io\2.12.0\commons-io-2.12.0.jar;C:\Users\jmluc\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.6.0\junit-jupiter-engine-5.6.0.jar;C:\Users\jmluc\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\jmluc\.m2\repository\org\junit\platform\junit-platform-engine\1.6.0\junit-platform-engine-1.6.0.jar;C:\Users\jmluc\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.0.0-RC3\junit-jupiter-params-5.0.0-RC3.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="America/Buenos_Aires"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="20"/>
+    <property name="user.country" value="AR"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-20\bin"/>
+    <property name="sun.java.command" value="C:\Users\jmluc\AppData\Local\Temp\surefire6062608032138989587\surefirebooter-20231017094638603_3.jar C:\Users\jmluc\AppData\Local\Temp\surefire6062608032138989587 2023-10-17T09-46-38_391-jvmRun1 surefire-20231017094638603_1tmp surefire_0-20231017094638603_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="BasicTests.HorizontalFillTest"/>
+    <property name="surefire.test.class.path" value="C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\target\test-classes;C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama\target\classes;C:\Users\jmluc\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\jmluc\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\jmluc\.m2\repository\org\mockito\mockito-junit-jupiter\3.7.7\mockito-junit-jupiter-3.7.7.jar;C:\Users\jmluc\.m2\repository\org\mockito\mockito-core\3.7.7\mockito-core-3.7.7.jar;C:\Users\jmluc\.m2\repository\net\bytebuddy\byte-buddy\1.10.19\byte-buddy-1.10.19.jar;C:\Users\jmluc\.m2\repository\net\bytebuddy\byte-buddy-agent\1.10.19\byte-buddy-agent-1.10.19.jar;C:\Users\jmluc\.m2\repository\org\objenesis\objenesis\3.1\objenesis-3.1.jar;C:\Users\jmluc\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.7.0\junit-jupiter-api-5.7.0.jar;C:\Users\jmluc\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\jmluc\.m2\repository\org\junit\platform\junit-platform-commons\1.7.0\junit-platform-commons-1.7.0.jar;C:\Users\jmluc\.m2\repository\com\mysql\mysql-connector-j\8.0.32\mysql-connector-j-8.0.32.jar;C:\Users\jmluc\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\jmluc\.m2\repository\org\jsoup\jsoup\1.14.3\jsoup-1.14.3.jar;C:\Users\jmluc\.m2\repository\com\formdev\flatlaf\3.2.1\flatlaf-3.2.1.jar;C:\Users\jmluc\.m2\repository\com\miglayout\miglayout-core\5.3\miglayout-core-5.3.jar;C:\Users\jmluc\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.12.1\jackson-databind-2.12.1.jar;C:\Users\jmluc\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.12.1\jackson-annotations-2.12.1.jar;C:\Users\jmluc\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.12.1\jackson-core-2.12.1.jar;C:\Users\jmluc\.m2\repository\commons-io\commons-io\2.12.0\commons-io-2.12.0.jar;C:\Users\jmluc\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.6.0\junit-jupiter-engine-5.6.0.jar;C:\Users\jmluc\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\jmluc\.m2\repository\org\junit\platform\junit-platform-engine\1.6.0\junit-platform-engine-1.6.0.jar;C:\Users\jmluc\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.0.0-RC3\junit-jupiter-params-5.0.0-RC3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\jmluc"/>
+    <property name="user.language" value="es"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-04-18"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-20"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\jmluc\AppData\Local\Temp\surefire6062608032138989587\surefirebooter-20231017094638603_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="20.0.1+9-29"/>
+    <property name="user.name" value="jmlucero"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-18\netbeans\java\maven-nblib\netbeans-eventspy.jar;C:\Program Files\NetBeans-18\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="localRepository" value="C:\Users\jmluc\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\jmluc\AppData\Local\Temp\"/>
+    <property name="java.version" value="20.0.1"/>
+    <property name="user.dir" value="C:\Users\jmluc\Documents\NetBeansProjects\Gorigrama"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-20\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\cygwin64\bin;C:\MinGW\bin;C:\MinGW\msys\1.0\bin;C:\Users\jmluc\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\jmluc\AppData\Local\Programs\Python\Python310\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\Program Files (x86)\Java\jdk1.5.0_22\jre\bin;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files (x86)\QuickTime Alternative\QTSystem;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Autodesk\Backburner\;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\Java\jdk-15.0.1;C:\Users\jmluc\AppData\Local\Android\Sdk\tools\bin;C:\Users\jmluc\AppData\Local\Android\Sdk\tools;C:\Users\jmluc\AppData\Local\Android\Sdk\platform-tools;C:\ProgramData\Jenkins\.jenkins\plugins\maven-plugin;C:\apache-maven-3.9.5\bin;C:\Users\jmluc\AppData\Local\Microsoft\WindowsApps;C:\Users\jmluc\.dotnet\tools;C:\Users\jmluc\AppData\Roaming\npm;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2023.2\bin;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="20.0.1+9-29"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="64.0"/>
+  </properties>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0.046">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio casa tirol pico templo casamiento
+                  a a    o    c                   
+FINAL ::
+Loro capricornio cara tirol taco templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0.004">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio tetra casa cera templo casamiento
+                  e r    s    r                   
+FINAL ::
+Loro capricornio tetra casa cera templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0.003">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 16
+------
+Loro capricornio                  templo casamiento
+Loro capricornio megane taco pico templo casamiento
+                  e a    a    i                    
+FINAL ::
+Loro capricornio megane taco pico templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0.007">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio tetra cara casa templo casamiento
+                  e r    r    s                   
+FINAL ::
+Loro capricornio lepra cera casa templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0.002">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio tetra taco cera templo casamiento
+                  e r    c    r                   
+FINAL ::
+Loro capricornio lepra pico cera templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 17
+------
+Loro capricornio                   templo casamiento
+Loro capricornio casa tirol pelota templo casamiento
+                  a a    o    l                     
+FINAL ::
+Loro capricornio casa tirol pelota templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio sucre pico cera templo casamiento
+                  u r    c    r                   
+FINAL ::
+Loro capricornio sucre pico cara templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 17
+------
+Loro capricornio                   templo casamiento
+Loro capricornio cantera cera cara templo casamiento
+                  a t    c    c                     
+FINAL ::
+Loro capricornio cantera casa cera templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 17
+------
+Loro capricornio                   templo casamiento
+Loro capricornio pantera casa cara templo casamiento
+                  a t    c    c                     
+FINAL ::
+Loro capricornio pantera cara casa templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="BHFill_Restricted_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 16
+------
+Loro capricornio                  templo casamiento
+Loro capricornio mentir cera cara templo casamiento
+                  e t    e    a                    
+FINAL ::
+Loro capricornio mentir cera cara templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="findEmptySubSpaceIndexes(String, int, int, int)[1]" classname="BasicTests.HorizontalFillTest" time="0.024">
+    <system-out><![CDATA[ROW LENGTH: 34
+value1: 7,value2: 16, value3: 22
+]]></system-out>
+  </testcase>
+  <testcase name="findEmptySubSpaceIndexes(String, int, int, int)[2]" classname="BasicTests.HorizontalFillTest" time="0.003">
+    <system-out><![CDATA[ROW LENGTH: 31
+value1: 4,value2: 0, value3: 3
+]]></system-out>
+  </testcase>
+  <testcase name="findEmptySubSpaceIndexes(String, int, int, int)[3]" classname="BasicTests.HorizontalFillTest" time="0.001">
+    <system-out><![CDATA[ROW LENGTH: 35
+value1: 8,value2: 27, value3: 34
+]]></system-out>
+  </testcase>
+  <testcase name="basicHorizontalFillTest" classname="BasicTests.HorizontalFillTest" time="0.002">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 17
+FINAL ROW: Loro capricornio tetra pelota taco templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="basicHorizontalFillTest" classname="BasicTests.HorizontalFillTest" time="0.002">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 17
+FINAL ROW: Loro capricornio cera tetra mentir templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="basicHorizontalFillTest" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 16
+FINAL ROW: Loro capricornio casa lepra tirol templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="basicHorizontalFillTest" classname="BasicTests.HorizontalFillTest" time="0.001">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 17
+FINAL ROW: Loro capricornio megane taco sucre templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="basicHorizontalFillTest" classname="BasicTests.HorizontalFillTest" time="0.002">
+    <system-out><![CDATA[TENTATIVE EMPY CELLS: 17
+FINAL ROW: Loro capricornio cantera taco pico templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0.004">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 16
+------
+Loro capricornio                  templo casamiento
+Loro capricornio taco tirol tenis templo casamiento
+                  a o    o    n                    
+FINAL ::
+Loro capricornio taco tirol tenis templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0.001">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio tetra pico taco templo casamiento
+                  e r    c    c                   
+FINAL ::
+Loro capricornio lepra pico taco templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0.001">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 17
+------
+Loro capricornio                   templo casamiento
+Loro capricornio cara tenis paleta templo casamiento
+                  a a    i    l                     
+FINAL ::
+Loro capricornio casa tenis pelota templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0.001">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 16
+------
+Loro capricornio                  templo casamiento
+Loro capricornio sucre tirol casa templo casamiento
+                  u r    r    a                    
+FINAL ::
+Loro capricornio sucre tirol cara templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0.002">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 16
+------
+Loro capricornio                  templo casamiento
+Loro capricornio casa pico megane templo casamiento
+                  a a    o    a                    
+FINAL ::
+Loro capricornio casa taco megane templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0.002">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio pico tenis casa templo casamiento
+                  i o    i    s                   
+FINAL ::
+Loro capricornio pico tenis casa templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0.001">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio casa cara lepra templo casamiento
+                  a a    a    r                   
+FINAL ::
+Loro capricornio cara casa sucre templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio tirol cera cara templo casamiento
+                  i o    r    r                   
+FINAL ::
+Loro capricornio tirol cera cara templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 15
+------
+Loro capricornio                 templo casamiento
+Loro capricornio tetra cera pico templo casamiento
+                  e r    r    c                   
+FINAL ::
+Loro capricornio tetra cara taco templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="B_FFill_Restricted_Recursion_Test" classname="BasicTests.HorizontalFillTest" time="0">
+    <system-out><![CDATA[------- B_FFill_Restricted_Recursion_Test ------
+TENTATIVE EMPY CELLS: 16
+------
+Loro capricornio                  templo casamiento
+Loro capricornio mentir cara pico templo casamiento
+                  e t    a    i                    
+FINAL ::
+Loro capricornio mentir cara pico templo casamiento
+]]></system-out>
+  </testcase>
+  <testcase name="findEmptyCellsTest(String, int)[1]" classname="BasicTests.HorizontalFillTest" time="0.016"/>
+  <testcase name="findEmptyCellsTest(String, int)[2]" classname="BasicTests.HorizontalFillTest" time="0"/>
+  <testcase name="findEmptyCellsTest(String, int)[3]" classname="BasicTests.HorizontalFillTest" time="0"/>
+</testsuite>
