@@ -51,9 +51,6 @@ public class Scrap {
         in.close();
         String html = response.toString();
         Document doc = Jsoup.parse(html);
-        //System.out.println("DOCUMENT");
-        //System.out.println(doc);
- 
         Elements abbr = doc.getElementsByClass("BNeawe s3v9rd AP7Wnd");
         List<String> defsScrapped = new ArrayList();
         String salida="";
@@ -62,15 +59,8 @@ public class Scrap {
             salida=def.toString().replaceAll("<[^>]+>", "").replaceAll("\n", "").trim();
             if(!defsScrapped.contains(salida)) defsScrapped.add(salida);
         }
-        /*
-        FORMA DE EVADIR EL "LOCAL VARIABLES IN LAMBAS MUST BE FINAL OR EFFECTIVELY FINAL"
-        String[] med={""};
-        defsScrapped.forEach((t)->{
-            med[0]+=t;
-        });*/
       
          return defsScrapped.stream().reduce("", (accumulated, add) ->accumulated+add+"\n");
-    
     }
 
     private static String scrapRae(String word) throws MalformedURLException, IOException {

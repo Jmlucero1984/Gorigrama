@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /* @author jmlucero */
-public class JDBC_connection {
+public class JdbcConnection {
 
     private static final String database_user = "Jose";
     private static final String db = "crucigrama";

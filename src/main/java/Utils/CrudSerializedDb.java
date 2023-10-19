@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /* @author jmlucero */
-public class CRUD_Serialized_DB {
+public class CrudSerializedDb {
     private static final String database_user = "Jose";
     private static final String db = "crucigramas";
     private static final String pass = "";

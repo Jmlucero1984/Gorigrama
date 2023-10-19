@@ -1,5 +1,12 @@
 For developing stage: Gorigrama->Run File
 
+18/10
+TODO:
+-Improve contextual menu in order to:
+    - Show a title, an option to only remove or ban word forever
+    - Click a point to force a word insertion, either vertically or horizontally
+-Would be possibly to put a quote horizontally?
+
 
 As a first attemp we work with a web-sourced list of words from RAE. The main issue is
 that web lists many, many antique Spanish words (may be from 15 century or prior), therefore 

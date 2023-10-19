@@ -18,7 +18,7 @@ daguerre
 daguerrotipia
 dahl
 dahomey
-dahsūr
+dahsur
 daidalica
 daidalos
 daigak
@@ -271,7 +271,7 @@ dendrocronologia
 deneuve
 deng
 dengue
-dengyō
+dengyo
 denikin
 denis
 dennis
@@ -752,7 +752,7 @@ dragoon
 drake
 drakensberg
 drakkar
-drakōn
+drakon
 drama
 draper
 drau
@@ -808,7 +808,6 @@ dubris
 dubrovnik
 dubuffet
 duby
-dubček
 duchamp
 ductilidad
 ductus
@@ -910,14 +909,8 @@ dux
 dvaravati
 dvd
 dvina
-dvořak
+dvorak
 dyck
 dylan
 dyushambe
 dzerzhinski
-dąbrowska
-dēmokritos
-dēmosthenēs
-dēmētrios
-dōgen
-dailly

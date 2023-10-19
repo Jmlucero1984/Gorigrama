@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package GUI;
+package misc.remainder;
 
 import java.awt.Dimension;
 
@@ -45,7 +45,7 @@ public class Prueba extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 204, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(900, 500));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel2.setLayout(new java.awt.GridLayout(0, 1));
 

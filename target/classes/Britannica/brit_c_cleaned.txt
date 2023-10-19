@@ -46,7 +46,6 @@ cacion
 caco
 cacto
 cactus
-cad/cam
 cadbury
 caddo
 cade
@@ -2204,3 +2203,15 @@ cuy
 cuyaba
 cuyahoga
 cuy
+cuyaba
+cuyahoga
+cuyp
+cuyuni
+cuzco
+cusco
+cwmbran
+cydones
+cygnus
+cyrano 
+czartoryski
+czerny

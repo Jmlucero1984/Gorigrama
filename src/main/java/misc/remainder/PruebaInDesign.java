@@ -1,5 +1,5 @@
 
-package GUI;
+package misc.remainder;
 
 import Utils.IDExporter;
 import static Utils.SessionData.saveSession;
@@ -11,12 +11,9 @@ public class PruebaInDesign {
     
     public static void main(String[] args) throws IOException {
         
-        WordsFileProcessor.proccessFiles("d");
-        WordsFileProcessor.proccessFiles("e");
-        WordsFileProcessor.proccessFiles("f");
-        WordsFileProcessor.proccessFiles("g");
-        WordsFileProcessor.proccessFiles("h");
-        WordsFileProcessor.proccessFiles("i");
+        
+        WordsFileProcessor.proccessFiles("p");
+ 
         
         
         

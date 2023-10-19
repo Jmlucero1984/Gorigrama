@@ -63,8 +63,6 @@ bahia
 bahir
 bahrein
 bahutu
-bahā
-bahāī
 bai
 baibars
 baikal
@@ -201,7 +199,6 @@ bann
 banneker
 bannister
 bannockburn
-bannā
 bano
 banpocun
 bantam
@@ -485,7 +482,7 @@ begonia
 behaismo
 behan
 behaviorismo
-behestūn
+behestun
 behistun
 behn
 behrens
@@ -575,7 +572,7 @@ beneficio
 beneficios
 benelux
 benet
-beneš
+benes
 bengal
 bengala
 bengali
@@ -789,7 +786,7 @@ billings
 billiton
 billroth
 billy
-bilqīs
+bilqis
 bimetalismo
 bin
 binaria
@@ -1404,7 +1401,6 @@ buckinghamshire
 buckley
 buckner
 bucovina
-bucureњti
 buda
 budapest
 buddleia
@@ -1535,3 +1531,18 @@ buton
 butung
 buwayhies
 buxte
+uyies
+buwayhies
+buxtehude
+buzkashi
+butler
+buzos
+buzzards
+byatt
+bydgoszcz
+bypass
+byrd
+byrne
+baron
+byron
+byte

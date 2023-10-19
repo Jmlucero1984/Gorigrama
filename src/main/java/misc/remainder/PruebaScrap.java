@@ -1,7 +1,7 @@
 
-package GUI;
+package misc.remainder;
 
-import Utils.JDBC_connection;
+import Utils.JdbcConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

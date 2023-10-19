@@ -5,7 +5,8 @@
 package GUI;
 
 import Utils.CallBackFn;
-import com.jml.gifgeneratorgui.FileTypeFilter;
+import Utils.FileTypeFilter;
+ 
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -25,15 +26,20 @@ public class IOFile extends javax.swing.JFrame {
     public IOFile() {
         initComponents();
 
-        FileTypeFilter jsonFilter = new FileTypeFilter(".slzd", "Crucigrama serializado");
+     
+    }
+    
+    public IOFile(String type, String description) {
+        this();
+           FileTypeFilter jsonFilter = new FileTypeFilter( type, description);
         for (javax.swing.filechooser.FileFilter choosableFileFilter : this.jFileChooser1.getChoosableFileFilters()) {
             jFileChooser1.removeChoosableFileFilter(choosableFileFilter);
         }
         this.jFileChooser1.addChoosableFileFilter(jsonFilter);
     }
 
-    public IOFile(CallBackFn callback,TipoDialog tipoDialog ) {
-        this();
+    public IOFile(String type, String description, CallBackFn callback,TipoDialog tipoDialog ) {
+        this(type,description);
         this.callback = callback;
         if(tipoDialog==TipoDialog.SAVE){
         this.jFileChooser1.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -50,10 +56,10 @@ public class IOFile extends javax.swing.JFrame {
 
         jFileChooser1 = new javax.swing.JFileChooser();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Seleccione un Crucigrama Guardado");
 
-        jFileChooser1.setCurrentDirectory(new java.io.File("C:\\Users\\jmluc\\Documents\\NetBeansProjects\\Autodefinido\\src\\main\\resources\\UserPreferences\\GR-00015_2023-09-22.json"));
+        jFileChooser1.setCurrentDirectory(new java.io.File("C:\\Users\\jmluc\\Documents\\Documents"));
         jFileChooser1.setDialogTitle("Seleccione un crucigrama en Json");
         jFileChooser1.setName(""); // NOI18N
         jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
@@ -116,14 +122,8 @@ public class IOFile extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(IOFile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        
+ 
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

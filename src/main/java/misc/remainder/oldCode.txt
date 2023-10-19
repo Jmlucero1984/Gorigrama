@@ -1,0 +1,271 @@
+
+
+REF 001 23/09/23
+if (largo >= 3) {
+    if (largo <= 5) {
+        indexOfLists = 0;
+    }
+    if (largo <= 7) {
+        indexOfLists = 1;
+    }
+    if (largo <= 9) {
+        indexOfLists = 2;
+    }
+    if (largo <= 11) {
+        indexOfLists = 3;
+    }
+    if (largo <= 13) {
+        indexOfLists = 4;
+    }
+    int index = 0;
+    List<String> actual = RepositorioPalabras.getPalabras_medidas().get(indexOfLists);
+    int max = actual.size();
+    while (!founded && index < max) {
+        newWord = actual.get(index);
+        if (newWord.length() <= end - init + 1 && newWord.length() >= MIN_LEN && newWord.length() % 2 == 1 && !alreadyTokenWords.contains(newWord)) {
+            boolean coincide = true;
+            for (int k = 0; k < newWord.length(); k += 2) {
+                if (!String.valueOf(newWord.charAt(k)).equals(palabrasArrayH[init + k][j])) {
+                    coincide = false;
+                }
+            }
+            if (coincide) {
+                founded = true;
+                System.out.println("VERTICAL ENCONTRADA: " + newWord);
+                alreadyTokenWords.add(newWord);
+                for (int k = 0; k < newWord.length(); k++) {
+                    palabrasArrayV[init + k][j] = String.valueOf(newWord.charAt(k));
+                }
+                i = init + newWord.length();
+            }
+        }
+        index++;
+    }
+    }***/
+
+
+REF 002 18/10/23
+
+
+    public void findBannedWord(int x, int y, boolean remove) {
+
+        if (y >= altoCeldas || y < 0 || x >= anchoCeldas || x < 0) {
+            System.out.println("INTRODUJO UNA COORDENADA NP VALIDA");
+            return;
+        }
+        posStack.add(new Pair<>(x, y));
+        System.out.println("REMOVE BEST MATCH: " + x + "   " + y);
+        String word = "", DIR = "";
+        if (x > 0 && !palabrasArrayH[y][x - 1].equals(" ")) {
+            DIR = "H";
+        }
+        if (x < anchoCeldas - 1 && !palabrasArrayH[y][x + 1].equals(" ")) {
+            DIR = "H";
+        }
+        if (y > 0 && !palabrasArrayV[y - 1][x].equals(" ")) {
+            DIR = "V";
+        }
+        if (y < altoCeldas - 1 && !palabrasArrayH[y + 1][x].equals(" ")) {
+            DIR = "V";
+        }
+        System.out.println("DIRECCION " + DIR);
+        if (DIR.equals("H")) {
+            boolean extreme = false;
+            while (x > 0 && !extreme) {
+                x--;
+                if (x == 0 || palabrasArrayH[y][x].equals(" ")) {
+                    extreme = true;
+                }
+            }
+            extreme = false;
+            while (!extreme) {
+                word += palabrasArrayH[y][x];
+                palabrasArrayH[y][x] = " ";
+                x++;
+                if (x == anchoCeldas || palabrasArrayH[y][x].equals(" ")) {
+                    extreme = true;
+                }
+            }
+        }
+        if (DIR.equals("V")) {
+            boolean extreme = false;
+            while (y > 0 && !extreme) {
+                y--;
+                if (y == 0 || palabrasArrayV[y][x].equals(" ")) {
+                    extreme = true;
+                }
+            }
+            extreme = false;
+            while (!extreme) {
+                word += palabrasArrayV[y][x];
+                palabrasArrayV[y][x] = " ";
+                y++;
+                if (y == altoCeldas || palabrasArrayV[y][x].equals(" ")) {
+                    extreme = true;
+                }
+            }
+        }
+        word = word.trim();
+        System.out.println("PALABRA ENCONTRADA: " + word);
+        System.out.println("ORIGINAL: " + bestMatch(word));
+        if (remove && !word.equals("")) {
+            try {
+                RepositorioPalabras.excludeNewBanned(bestMatch(word));
+            } catch (IOException ex) {
+                Logger.getLogger(GorigramaEntity.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        alreadyTokenWords.remove(bestMatch(word));
+    }
+
+
+    public void refillHorizontalWords() {
+        imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayH);
+        Random rdm = new Random();
+        for (int i = 0; i < altoCeldas; i += 2) {
+            System.out.println("NIVEL I: " + i);
+            int init = 0, end = 0;
+            for (int j = 0; j < anchoCeldas; j++) {
+                init = end;
+                if (palabrasArrayH[i][j].equals(" ")) {
+                    init = j;
+                    while (j < anchoCeldas - 1 && palabrasArrayH[i][j + 1].equals(" ")) {
+                        j++;
+                    }
+                    end = j;
+                }
+                if (end - init > 1) {
+                    if (init > 0) {
+                        init++;
+                    }
+                    int largo = end - init;
+                    if (j == anchoCeldas - 1) {
+                        largo++;
+                    }
+
+                    boolean trim = largo <= 10 || rdm.nextGaussian() <= 0;
+                    boolean founded = false;
+                    boolean goodFit;
+                    while (!founded) {
+                        String[] resultado = encontrarPalabras(largo, RepositorioPalabras.getPalabras(), alreadyTokenWords, trim);
+                        goodFit = true;
+                        for (int k = 0; k < resultado.length; k++) {
+
+                            if (!(palabrasArrayV[i][init + k].equals(resultado[k]) || palabrasArrayV[i][init + k].equalsIgnoreCase(" "))) {
+                                goodFit = false;
+                                break;
+                            }
+                        }
+                        if (goodFit) {
+                            for (int k = 0; k < resultado.length; k++) {
+                                palabrasArrayH[i][init + k] = resultado[k];
+                            }
+                            founded = true;
+                        }
+
+                    }
+
+                }
+            }
+        }
+        //  imprimirPalabras(altoCeldas, anchoCeldas,palabrasArrayH);
+        actualizarHorizontales();
+
+    }
+
+ public void forceVertical() {
+        imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayH);
+        Random rdm = new Random();
+        String word;
+        int pos_last_x = posStack.peek().first;
+        int pos_last_y = posStack.pop().second;
+        int pos_prev_x = posStack.peek().first;
+        int pos_prev_y = posStack.pop().second;
+        List<String> horiz;
+        int[][] lettersPos;
+        if (pos_last_x == pos_prev_x && pos_last_y % 2 == 0 && pos_prev_y % 2 == 0) {
+            int max;
+            if (pos_prev_y > pos_last_y) {
+                max = pos_prev_y;
+                pos_prev_y = pos_last_y;
+                pos_last_y = max;
+            }
+            int largo = pos_last_y - pos_prev_y + 1;
+            boolean founded = false;
+            int rows = (largo + 1) / 2;
+
+            lettersPos = new int[rows][3];
+
+            int iters = 10000;
+            Collections.shuffle(RepositorioPalabras.getPalabras());
+            while (!founded && iters > 0) {
+                horiz = new ArrayList();
+                iters--;
+                int assigned = 0;
+                do {
+                    word = RepositorioPalabras.getPalabras().get(rdm.nextInt(RepositorioPalabras.getPalabras().size()));
+                } while (word.length() != largo || alreadyTokenWords.contains(word));
+                for (int i = 0; i < rows; i++) {
+
+                    int a = pos_last_x;
+                    lettersPos[i][1] = a;
+
+                    while (a > 0 && palabrasArrayH[pos_prev_y + i * 2][a - 1].equals(" ")) {
+                        a--;
+                    }
+
+                    if (a != 0) {
+                        a++;
+                    }
+                    lettersPos[i][0] = a;
+                    a = pos_last_x;
+                    while (a < anchoCeldas - 1 && palabrasArrayH[pos_prev_y + i * 2][a + 1].equals(" ")) {
+                        a++;
+                    }
+                    if (a == anchoCeldas - 1) {
+                        a++;
+                    }
+
+                    lettersPos[i][2] = a;
+                    int wordLength = lettersPos[i][2] - lettersPos[i][0];
+                    int atIndex = lettersPos[i][1] - lettersPos[i][0];
+                    for (int j = 0; j < RepositorioPalabras.getPalabras().size(); j++) {
+                        String temp = RepositorioPalabras.getPalabras().get(j);
+                        if (!horiz.contains(temp) && temp.length() == wordLength && String.valueOf(temp.charAt(atIndex)).equals(String.valueOf(word.charAt(i * 2)))) {
+                            horiz.add(temp);
+                            assigned++;
+                            break;
+
+                        }
+                    }
+
+                }
+                if (assigned == (largo + 1) / 2) {
+                    System.out.println("WORDD VERTICAL: " + word);
+                    int point = 0;
+                    for (int i = pos_prev_y; i < pos_prev_y + word.length(); i++) {
+                        palabrasArrayV[i][pos_last_x] = String.valueOf(word.charAt(point));
+                        point++;
+                    }
+                    for (int i = 0; i < horiz.size(); i++) {
+                        point = 0;
+                        for (int j = lettersPos[i][0]; j < lettersPos[i][0] + horiz.get(i).length(); j++) {
+                            palabrasArrayH[pos_prev_y + i * 2][j] = String.valueOf(horiz.get(i).charAt(point));
+                            point++;
+                        }
+
+                    }
+                    founded = true;
+                }
+
+            }
+            if (founded) {
+                actualizarHorizontales();
+                actualizarVerticales();
+                checkForDuplicates();
+            } else {
+                System.out.println("FALLÓ FORZAR HORIZONTAL");
+            }
+
+        }
+    }

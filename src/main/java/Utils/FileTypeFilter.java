@@ -1,5 +1,6 @@
+package Utils;
 
-package com.jml.gifgeneratorgui;
+ 
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
