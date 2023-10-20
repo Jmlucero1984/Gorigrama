@@ -120,7 +120,7 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="generateBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Generar"/>
+                <Property name="text" type="java.lang.String" value="Generate"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 20]"/>
                 </Property>
@@ -148,7 +148,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="showNumbersBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Place Nums"/>
+                <Property name="text" type="java.lang.String" value="Place Numbers"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 20]"/>
                 </Property>
@@ -211,7 +211,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="saveImageBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Save JPEG"/>
+                <Property name="text" type="java.lang.String" value="Save jpg"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 20]"/>
                 </Property>
@@ -265,7 +265,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="saveToRemoteBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Save To  Remote"/>
+                <Property name="text" type="java.lang.String" value="Save DB"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 20]"/>
                 </Property>
@@ -279,7 +279,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="loadFromRemoteBtn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Load Remote"/>
+                <Property name="text" type="java.lang.String" value="Load DB"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 20]"/>
                 </Property>

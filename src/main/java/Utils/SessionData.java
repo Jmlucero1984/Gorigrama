@@ -22,10 +22,8 @@ public class SessionData {
     
     public static void saveSession() throws FileNotFoundException, IOException{
         File file;
-  
-         date = LocalDate.now();
-         LocalDate old;
- 
+        date = LocalDate.now();
+        LocalDate old;
         BufferedReader br;
         String st;
         String path="src\\main\\resources\\UserPreferences\\userData.txt";
@@ -41,11 +39,10 @@ public class SessionData {
             session++;
         }
         br.close();
-    FileWriter fw = new FileWriter(path,true); //the true will append the new data
-    fw.write(dc.format(session)+","+date.toString()+"\n");//appends the string to the file
-    fw.close();
- 
-        
+        FileWriter fw = new FileWriter(path,true); //the true will append the new data
+        fw.write(dc.format(session)+","+date.toString()+"\n");//appends the string to the file
+        fw.close();
+  
     }
 
     public static String newSessionEntry() throws IOException {

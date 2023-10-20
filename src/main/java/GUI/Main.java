@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import GUI.Bundles.BundleMng;
 import Utils.SerializedNormal;
 import com.jml.gorigrama.GorigramaEntity;
 import com.jml.gorigrama.RepositorioPalabras;
@@ -30,6 +31,7 @@ import Utils.Pair;
 
 import Utils.WordItem;
 import com.formdev.flatlaf.FlatDarculaLaf;
+import java.awt.Component;
 
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
@@ -42,11 +44,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 
 import javax.swing.JOptionPane;
@@ -58,9 +64,9 @@ import javax.swing.JPopupMenu;
  * @author jmlucero
  */
 public class Main extends javax.swing.JFrame {
-
+    
     Graphics2D gr;
-
+    
     private final int ANCHO_CELDA = 32, ALTO_CELDA = 32;
     private final int CELDAS_H = 26, CELDAS_V = 15;   // 48 x 27 
     private int OFFSET_Y = 12, OFFSET_X = 12;
@@ -72,16 +78,15 @@ public class Main extends javax.swing.JFrame {
     private int NUM_TOP_MARGIN = 10;
     GorigramaEntity crucigramaInstance;
     JPopupMenu jpm = new JPopupMenu("ContexMenu");
-
+    ResourceBundle bundle;
     private Integer[][] nums;
-    private int index;
+    
     boolean banWord = false;
-    JPopupMenu popupmenu = new JPopupMenu();
-
+    
     String title = " GORIGRAMAS - Desde 2023 (prácticamente desde ayer :-P) creando crucigramas para suegras       ";
-
+    
     List<Pair<Integer, String>> horizPairsList, vertiPairList;
-
+    
     BufferedImage bufferedImg;
     Executor resetStatusText = CompletableFuture.delayedExecutor(15, TimeUnit.MILLISECONDS);
     Method method;
@@ -90,8 +95,12 @@ public class Main extends javax.swing.JFrame {
     // Now you can interact with the loaded class and its methods
     public Main() throws IOException {
         try {
-            RepositorioPalabras.load();
+
+            //  bundle= BundleMng.getBundle();
+            // bundle = BundleMng.getBundle();
             initComponents();
+            
+            RepositorioPalabras.load();
             OFFSET_Y = (NOM_HEIGHT - CELDAS_V * ALTO_CELDA) / 2;
             OFFSET_X = (NOM_WIDTH - CELDAS_H * ANCHO_CELDA) / 2;
             FONT_SIZE_NUM = (int) Math.round(ALTO_CELDA * 0.32);
@@ -120,23 +129,34 @@ public class Main extends javax.swing.JFrame {
             method = scraperClass.getDeclaredMethod("getDefinition", String.class);
             jpm.setLightWeightPopupEnabled(false);
             //mainPanel.setComponentPopupMenu(jpm);
+            
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // loadInternatStrings();
+        loadLocaleStrings();
     }
-
+    
+    public void loadLocaleStrings() {
+        JButton[] buttons = {this.defsBtn, this.drawGridBtn, this.generateBtn, this.loadFromRemoteBtn,
+            this.loadLocalBtn, this.saveImageBtn, this.saveToRemoteBtn, this.setDefsBtn, this.showLettersBtn,
+            this.showNumbersBtn, this.updateBtn, this.wordToolsBtn};
+        BundleMng.getStrings(Arrays.asList(buttons));
+        
+    }
+    
     public void setTitle() {
         char letter;
         letter = title.charAt(0);
         title = title.substring(1).concat(String.valueOf(letter));
         this.setTitle(title);
     }
-
+    
     private void crearBufferAndGraphics() {
         bufferedImg = (BufferedImage) mainPanel.createImage(mainPanel.getWidth(), mainPanel.getHeight());
         gr = (Graphics2D) bufferedImg.getGraphics(); //mainPanel.getGraphics();
     }
-
+    
     private void inicializar() throws IOException {
         crucigramaInstance = new GorigramaEntity(CELDAS_V, CELDAS_H);
         crucigramaInstance.generar();
@@ -213,7 +233,7 @@ public class Main extends javax.swing.JFrame {
         leftPanel.setPreferredSize(new java.awt.Dimension(130, 700));
         leftPanel.setLayout(new java.awt.GridLayout(0, 1));
 
-        generateBtn.setText("Generar");
+        generateBtn.setText("Generate");
         generateBtn.setMinimumSize(new java.awt.Dimension(150, 20));
         generateBtn.setPreferredSize(new java.awt.Dimension(150, 15));
         generateBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -233,7 +253,7 @@ public class Main extends javax.swing.JFrame {
         });
         leftPanel.add(drawGridBtn);
 
-        showNumbersBtn.setText("Place Nums");
+        showNumbersBtn.setText("Place Numbers");
         showNumbersBtn.setMinimumSize(new java.awt.Dimension(150, 20));
         showNumbersBtn.setPreferredSize(new java.awt.Dimension(150, 15));
         showNumbersBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -276,7 +296,7 @@ public class Main extends javax.swing.JFrame {
         jSeparator1.setPreferredSize(new java.awt.Dimension(150, 15));
         leftPanel.add(jSeparator1);
 
-        saveImageBtn.setText("Save JPEG");
+        saveImageBtn.setText("Save jpg");
         saveImageBtn.setMinimumSize(new java.awt.Dimension(150, 20));
         saveImageBtn.setPreferredSize(new java.awt.Dimension(150, 15));
         saveImageBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -316,7 +336,7 @@ public class Main extends javax.swing.JFrame {
         });
         leftPanel.add(saveLocalBtn);
 
-        saveToRemoteBtn.setText("Save To  Remote");
+        saveToRemoteBtn.setText("Save DB");
         saveToRemoteBtn.setMinimumSize(new java.awt.Dimension(150, 20));
         saveToRemoteBtn.setPreferredSize(new java.awt.Dimension(150, 15));
         saveToRemoteBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -326,7 +346,7 @@ public class Main extends javax.swing.JFrame {
         });
         leftPanel.add(saveToRemoteBtn);
 
-        loadFromRemoteBtn.setText("Load Remote");
+        loadFromRemoteBtn.setText("Load DB");
         loadFromRemoteBtn.setMinimumSize(new java.awt.Dimension(150, 20));
         loadFromRemoteBtn.setPreferredSize(new java.awt.Dimension(150, 15));
         loadFromRemoteBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -475,10 +495,10 @@ public class Main extends javax.swing.JFrame {
                 nums = crucigramaInstance.generarNumeros();
                 String[][] lettersH = crucigramaInstance.getHorizontales();
                 String[][] lettersV = crucigramaInstance.getVerticales();
-
+                
                 System.out.println("ALTO : " + lettersH.length);
                 System.out.println("ANCHO : " + lettersH[0].length);
-
+                
                 gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_NUM));
                 for (int i = 0; i < nums[0].length; i++) {
                     for (int j = 0; j < nums.length; j++) {
@@ -495,7 +515,7 @@ public class Main extends javax.swing.JFrame {
                 mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
             }
         } catch (HeadlessException e) {
-
+            
         }
 
     }//GEN-LAST:event_drawNumbers
@@ -524,7 +544,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_editDefs
 
     private void saveImage(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImage
-
+        
         if (crucigramaInstance != null) {
             IOFile saveFile = new IOFile(".jpeg", "Imagen del crucigrama", (boolean success, File file) -> {
                 System.out.println(success);
@@ -555,7 +575,7 @@ public class Main extends javax.swing.JFrame {
     private void update(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update
         update();
     }//GEN-LAST:event_update
-
+    
     private void update() {
         horizPairsList = new ArrayList();
         vertiPairList = new ArrayList();
@@ -582,7 +602,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_banWordCheckBoxItemStateChanged
 
     private void loadFromRemoteBtn(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromRemoteBtn
-
+        
         IOFile loadFile = new IOFile(".slzd", "Crucigrama Serializado", (boolean success, File file) -> {
             System.out.println(success);
             if (success) {
@@ -603,34 +623,33 @@ public class Main extends javax.swing.JFrame {
         wt.setLocationRelativeTo(this);
         wt.setVisible(true);
     }//GEN-LAST:event_wordToolsBtnsaveToJson
-
     
     public void drawCross(Graphics2D gr, int xx, int yy) {
-            Stroke stroke = new BasicStroke(5f);
-            gr.setColor(Color.RED);
-            gr.drawLine(xx - 10, yy - 10, xx + 10, yy + 10);
-            gr.drawLine(xx - 10, yy + 10, xx + 10, yy - 10);
+        Stroke stroke = new BasicStroke(5f);
+        gr.setColor(Color.RED);
+        gr.drawLine(xx - 10, yy - 10, xx + 10, yy + 10);
+        gr.drawLine(xx - 10, yy + 10, xx + 10, yy - 10);
     }
     
     public void drawCircle(Graphics2D gr, int xx, int yy) {
-            Stroke stroke = new BasicStroke(5f);
-   
-            gr.setStroke(stroke);
-            gr.setColor(Color.GREEN);
-            gr.drawOval(xx - 10, yy - 10, 20, 20);
+        Stroke stroke = new BasicStroke(5f);
+        
+        gr.setStroke(stroke);
+        gr.setColor(Color.GREEN);
+        gr.drawOval(xx - 10, yy - 10, 20, 20);
     }
 
     private void mainPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseReleased
-
+        
         int xx = evt.getX();
         int yy = evt.getY();
         if (evt.getButton() == MouseEvent.BUTTON3) {
             System.out.println("MOUSE CLICKED BUTTON 3");
-           // drawCross((Graphics2D) mainPanel.getGraphics(), evt.getX(), evt.getY());
+            // drawCross((Graphics2D) mainPanel.getGraphics(), evt.getX(), evt.getY());
             jpm.removeAll();
             // jpm.setOpaque(false);
             Pair<WordItem, WordItem> foundedWords = crucigramaInstance.locateWords((int) ((xx - OFFSET_X) / (ANCHO_CELDA)), (int) (yy - OFFSET_Y) / (ALTO_CELDA));
-            if (foundedWords!=null && foundedWords.first!=null) {
+            if (foundedWords != null && foundedWords.first != null) {
                 JMenuItem h = new JMenuItem(foundedWords.first.getWord());
                 h.addActionListener((ActionEvent ae) -> {
                     System.out.println(foundedWords.first.getWord());
@@ -639,7 +658,7 @@ public class Main extends javax.swing.JFrame {
                 });
                 jpm.add(h);
             }
-            if (foundedWords!=null && foundedWords.second != null) {
+            if (foundedWords != null && foundedWords.second != null) {
                 JMenuItem v = new JMenuItem(foundedWords.second.getWord());
                 v.addActionListener((ActionEvent ae) -> {
                     System.out.println(foundedWords.second.getWord());
@@ -650,13 +669,13 @@ public class Main extends javax.swing.JFrame {
             }
             jpm.show(mainPanel, evt.getX(), evt.getY());
         }
-
+        
         if (evt.getButton() == MouseEvent.BUTTON1) {
             System.out.println("MOUSE CLICKED BUTTON 1");
-           // drawCircle((Graphics2D) mainPanel.getGraphics(), evt.getX(), evt.getY());
-           
+            // drawCircle((Graphics2D) mainPanel.getGraphics(), evt.getX(), evt.getY());
+            
         }
-
+        
         if (evt.getButton() == 2) {
             mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
             crucigramaInstance.cleanStack();
@@ -735,7 +754,7 @@ public class Main extends javax.swing.JFrame {
                     break;
                 }
             }
-
+            
         } catch (Exception e) {
             System.out.println("Exception " + e);
         };

@@ -383,7 +383,7 @@ public class GorigramaEntity implements Serializable {
     }
 
     public boolean fullfillsRestrictions(String word, String[] restrictions, int init) {
-        // Added a check for not letting horizontal words end just before a restriction. In a supposed situation like this,
+        //Added a check for not letting horizontal words end just before a restriction. In a supposed situation like this,
         //return false expecting for a new word shorter or 1 letter larger.
         if (init + word.length() < restrictions.length && !restrictions[init + word.length()].equals(" ")) {
             return false;

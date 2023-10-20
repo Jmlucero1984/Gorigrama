@@ -49,58 +49,61 @@ public class WordTool extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        indicesDeRestriccionesField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        searchWord = new javax.swing.JButton();
-        agregarWord = new javax.swing.JButton();
-        searchedWordCondition = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        searchWordField = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        resultadoBusquedaRestringida = new javax.swing.JLabel();
         spacedLettersLabel = new javax.swing.JLabel();
         spacedWord = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        indicesDeRestriccionesField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         palabraConRestriccionesField = new javax.swing.JTextField();
         buscarPosiblesRestringidas = new javax.swing.JButton();
-        resultadoBusquedaRestringida = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        searchWordField = new javax.swing.JTextField();
+        searchedWordCondition = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        searchWord = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
         removeWordBtn1 = new javax.swing.JButton();
+        agregarWord = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Word Tools");
         setBounds(new java.awt.Rectangle(0, 0, 400, 400));
         setMinimumSize(new java.awt.Dimension(400, 500));
 
-        indicesDeRestriccionesField.setText("Ingrese los indices: 1,5,8, etc");
+        jPanel4.setPreferredSize(new java.awt.Dimension(800, 422));
 
-        jLabel1.setText("  Buscar:");
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        searchWord.setText("Buscar");
-        searchWord.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchWordActionPerformed(evt);
-            }
-        });
-
-        agregarWord.setText("Agregar");
-        agregarWord.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarWordActionPerformed(evt);
-            }
-        });
-
-        searchedWordCondition.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        searchedWordCondition.setText("OPERATION STATUS");
-
-        jLabel3.setText("Búsqueda con restricciones:");
-
-        searchWordField.setText("Ingrese la palabra...");
+        resultadoBusquedaRestringida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        resultadoBusquedaRestringida.setText("posibles coincidencias...");
+        jPanel1.add(resultadoBusquedaRestringida, java.awt.BorderLayout.PAGE_END);
 
         spacedLettersLabel.setFont(new java.awt.Font("JetBrains Mono NL SemiBold", 0, 13)); // NOI18N
+        spacedLettersLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         spacedLettersLabel.setText("0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 ");
         spacedLettersLabel.setToolTipText("");
+        jPanel1.add(spacedLettersLabel, java.awt.BorderLayout.CENTER);
 
         spacedWord.setFont(new java.awt.Font("JetBrains Mono NL SemiBold", 0, 20)); // NOI18N
+        spacedWord.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         spacedWord.setText("l d f s d f s d f s d f s f s d f s d f s a b c d e f g h i j ");
+        jPanel1.add(spacedWord, java.awt.BorderLayout.PAGE_START);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        indicesDeRestriccionesField.setText("Ingrese los indices: 1,5,8, etc");
+        jPanel2.add(indicesDeRestriccionesField, java.awt.BorderLayout.CENTER);
+
+        jLabel3.setText("Búsqueda con restricciones:");
+        jPanel2.add(jLabel3, java.awt.BorderLayout.PAGE_START);
 
         palabraConRestriccionesField.setText("Ingrese la palabra...");
+        palabraConRestriccionesField.setPreferredSize(new java.awt.Dimension(460, 26));
         palabraConRestriccionesField.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 palabraConRestriccionesFieldCaretUpdate(evt);
@@ -116,160 +119,108 @@ public class WordTool extends javax.swing.JFrame {
                 palabraConRestriccionesFieldActionPerformed(evt);
             }
         });
+        jPanel2.add(palabraConRestriccionesField, java.awt.BorderLayout.LINE_START);
 
         buscarPosiblesRestringidas.setText("BUSCAR");
+        buscarPosiblesRestringidas.setDoubleBuffered(true);
+        buscarPosiblesRestringidas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buscarPosiblesRestringidas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buscarPosiblesRestringidasActionPerformed(evt);
             }
         });
+        jPanel2.add(buscarPosiblesRestringidas, java.awt.BorderLayout.PAGE_END);
 
-        resultadoBusquedaRestringida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        resultadoBusquedaRestringida.setText("posibles coincidencias...");
+        jPanel3.setLayout(new java.awt.GridLayout(3, 2));
+
+        jLabel1.setText("  Buscar:");
+        jPanel3.add(jLabel1);
+        jPanel3.add(filler1);
+
+        searchWordField.setText("Ingrese la palabra...");
+        jPanel3.add(searchWordField);
+
+        searchedWordCondition.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        searchedWordCondition.setText("OPERATION STATUS");
+        jPanel3.add(searchedWordCondition);
+
+        searchWord.setText("Buscar");
+        searchWord.setPreferredSize(new java.awt.Dimension(150, 27));
+        searchWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchWordActionPerformed(evt);
+            }
+        });
+        jPanel6.add(searchWord);
+
+        jPanel3.add(jPanel6);
 
         removeWordBtn1.setText("Quitar");
+        removeWordBtn1.setMinimumSize(new java.awt.Dimension(50, 27));
+        removeWordBtn1.setPreferredSize(new java.awt.Dimension(150, 27));
         removeWordBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeWordBtn1ActionPerformed(evt);
             }
         });
+        jPanel5.add(removeWordBtn1);
+
+        agregarWord.setText("Agregar");
+        agregarWord.setPreferredSize(new java.awt.Dimension(150, 27));
+        agregarWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarWordActionPerformed(evt);
+            }
+        });
+        jPanel5.add(agregarWord);
+
+        jPanel3.add(jPanel5);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 809, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(spacedWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(spacedLettersLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(resultadoBusquedaRestringida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(searchWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(searchWordField, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(searchedWordCondition, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(agregarWord, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(removeWordBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(palabraConRestriccionesField, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(35, 35, 35)
-                                    .addComponent(indicesDeRestriccionesField, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                                    .addComponent(buscarPosiblesRestringidas))))))
-                .addContainerGap(29, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(37, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchedWordCondition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchWordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeWordBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(agregarWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(53, 53, 53)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buscarPosiblesRestringidas)
-                    .addComponent(indicesDeRestriccionesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(palabraConRestriccionesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(spacedWord, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spacedLettersLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(resultadoBusquedaRestringida, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void palabraConRestriccionesFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_palabraConRestriccionesFieldCaretUpdate
-
-        String[] chars = palabraConRestriccionesField.getText().trim().split("");
-        String monoespaced = "";
-        for (String char1 : chars) {
-            monoespaced += char1 + " ";
-        }
-
-        spacedWord.setText(monoespaced.trim());
-    }//GEN-LAST:event_palabraConRestriccionesFieldCaretUpdate
-
-    private void palabraConRestriccionesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_palabraConRestriccionesFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_palabraConRestriccionesFieldActionPerformed
-
-    private void palabraConRestriccionesFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_palabraConRestriccionesFieldMouseClicked
-        if (palabraConRestriccionesField.getText().equals(defaultString)) {
-            palabraConRestriccionesField.setText("");
-        }
-    }//GEN-LAST:event_palabraConRestriccionesFieldMouseClicked
-
-    private void buscarPosiblesRestringidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPosiblesRestringidasActionPerformed
-        boolean founded = false;
-        String restrictedWord = palabraConRestriccionesField.getText().trim();
-        String[] cuts = indicesDeRestriccionesField.getText().split(",");
-        if (!restrictedWord.equals("")) {
-            indexes = new ArrayList();
-            for (String cut : cuts) {
-                try {
-                    int value = Integer.parseInt(cut);
-                    if (value < 30 && value < restrictedWord.length()) {
-                        indexes.add(value);
-                    } else {
-                        System.out.println("SE OMITIO EL VALOR: " + value);
-                    }
-
-                } catch (Exception e) {
-                    System.out.println("Exception e: " + e);
-                }
-            }
-        } else {
-            System.out.println("NO HAY NADA VALIDO EN EL CUADRO DE TEXTO PARA BUSCAR");
-        }
-        while (!founded && indexOfList < RepositorioPalabras.getPalabras().size()) {
-            String actual = RepositorioPalabras.getPalabras().get(indexOfList);
-            boolean goodFit = true;
-            if (actual.length() % 2 == 1 && actual.length() >= restrictedWord.length()) {
-                for (int i = 0; i < indexes.size(); i++) {
-                    int ii = indexes.get(i);
-                    if (!actual.substring(ii, ii + 1).equalsIgnoreCase(restrictedWord.substring(ii, ii + 1))) {
-                        goodFit = false;
-                    }
-                }
-                if (goodFit) {
-                    founded = true;
-                    System.out.println("SE ENCONTRO: " + actual);
-                    resultadoBusquedaRestringida.setText(actual);
-                } else {
-                    System.out.println("NO SE ENCONTRO NINGUNA COINCIDENCIA");
-                }
-            }
-            indexOfList++;
-        }
-    }//GEN-LAST:event_buscarPosiblesRestringidasActionPerformed
 
     private void agregarWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarWordActionPerformed
         String word = searchWordField.getText().trim();
@@ -332,8 +283,72 @@ public class WordTool extends javax.swing.JFrame {
 
         completableFuture.execute(() -> searchedWordCondition.setText("OPERATION STATUS"));
 
-
     }//GEN-LAST:event_searchWordActionPerformed
+
+    private void buscarPosiblesRestringidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarPosiblesRestringidasActionPerformed
+        boolean founded = false;
+        String restrictedWord = palabraConRestriccionesField.getText().trim();
+        String[] cuts = indicesDeRestriccionesField.getText().split(",");
+        if (!restrictedWord.equals("")) {
+            indexes = new ArrayList();
+            for (String cut : cuts) {
+                try {
+                    int value = Integer.parseInt(cut);
+                    if (value < 30 && value < restrictedWord.length()) {
+                        indexes.add(value);
+                    } else {
+                        System.out.println("SE OMITIO EL VALOR: " + value);
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Exception e: " + e);
+                }
+            }
+        } else {
+            System.out.println("NO HAY NADA VALIDO EN EL CUADRO DE TEXTO PARA BUSCAR");
+        }
+        while (!founded && indexOfList < RepositorioPalabras.getPalabras().size()) {
+            String actual = RepositorioPalabras.getPalabras().get(indexOfList);
+            boolean goodFit = true;
+            if (actual.length() % 2 == 1 && actual.length() >= restrictedWord.length()) {
+                for (int i = 0; i < indexes.size(); i++) {
+                    int ii = indexes.get(i);
+                    if (!actual.substring(ii, ii + 1).equalsIgnoreCase(restrictedWord.substring(ii, ii + 1))) {
+                        goodFit = false;
+                    }
+                }
+                if (goodFit) {
+                    founded = true;
+                    System.out.println("SE ENCONTRO: " + actual);
+                    resultadoBusquedaRestringida.setText(actual);
+                } else {
+                    System.out.println("NO SE ENCONTRO NINGUNA COINCIDENCIA");
+                }
+            }
+            indexOfList++;
+        }
+    }//GEN-LAST:event_buscarPosiblesRestringidasActionPerformed
+
+    private void palabraConRestriccionesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_palabraConRestriccionesFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_palabraConRestriccionesFieldActionPerformed
+
+    private void palabraConRestriccionesFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_palabraConRestriccionesFieldMouseClicked
+        if (palabraConRestriccionesField.getText().equals(defaultString)) {
+            palabraConRestriccionesField.setText("");
+        }
+    }//GEN-LAST:event_palabraConRestriccionesFieldMouseClicked
+
+    private void palabraConRestriccionesFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_palabraConRestriccionesFieldCaretUpdate
+
+        String[] chars = palabraConRestriccionesField.getText().trim().split("");
+        String monoespaced = "";
+        for (String char1 : chars) {
+            monoespaced += char1 + " ";
+        }
+
+        spacedWord.setText(monoespaced.trim());
+    }//GEN-LAST:event_palabraConRestriccionesFieldCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -373,9 +388,16 @@ public class WordTool extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarWord;
     private javax.swing.JButton buscarPosiblesRestringidas;
+    private javax.swing.Box.Filler filler1;
     private javax.swing.JTextField indicesDeRestriccionesField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField palabraConRestriccionesField;
     private javax.swing.JButton removeWordBtn1;
     private javax.swing.JLabel resultadoBusquedaRestringida;

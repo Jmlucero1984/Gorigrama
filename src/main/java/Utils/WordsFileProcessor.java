@@ -47,13 +47,14 @@ public class WordsFileProcessor {
 
         }
         path = "src\\main\\resources\\Britannica\\brit_"+letter+"_cleaned.txt";
-    
-
         FileWriter fw = new FileWriter(path, true); //the true will append the new data
         for (String string : palabrasBritannica) {
             fw.write(string + "\n");//appends the string to the file
         }
-
+        /*
+        Issue: Many files not fully filled. With at least 10 up to 20 words not processed. It seems
+        to be independent of the file size, and it always left the last word sliced...
+        */
     
         for (String string : palabras_RAE) {
             if(!palabrasBritannica.contains(string)){
@@ -62,12 +63,10 @@ public class WordsFileProcessor {
         }
         path = "src\\main\\resources\\Britannica\\brit_"+letter+"_diferences.txt";
      
-
         fw = new FileWriter(path, true); //the true will append the new data
         for (String string : diferences) {
             fw.write(string + "\n");//appends the string to the file
         }
-
         fw.close();
     }
 }
