@@ -64,11 +64,11 @@ import javax.swing.JPopupMenu;
  * @author jmlucero
  */
 public class Main extends javax.swing.JFrame {
-    
+
     Graphics2D gr;
-    
+
     private final int ANCHO_CELDA = 32, ALTO_CELDA = 32;
-    private final int CELDAS_H = 26, CELDAS_V = 15;   // 48 x 27 
+    private int CELDAS_H = 25, CELDAS_V = 15;   // 48 x 27 
     private int OFFSET_Y = 12, OFFSET_X = 12;
     private final int NOM_WIDTH = 1032, NOM_HEIGHT = 668;
     private int FONT_SIZE_NUM = 10, FONT_SIZE_LETTER = 11;
@@ -80,13 +80,13 @@ public class Main extends javax.swing.JFrame {
     JPopupMenu jpm = new JPopupMenu("ContexMenu");
     ResourceBundle bundle;
     private Integer[][] nums;
-    
+
     boolean banWord = false;
-    
+
     String title = " GORIGRAMAS - Desde 2023 (prácticamente desde ayer :-P) creando crucigramas para suegras       ";
-    
+
     List<Pair<Integer, String>> horizPairsList, vertiPairList;
-    
+
     BufferedImage bufferedImg;
     Executor resetStatusText = CompletableFuture.delayedExecutor(15, TimeUnit.MILLISECONDS);
     Method method;
@@ -99,10 +99,9 @@ public class Main extends javax.swing.JFrame {
             //  bundle= BundleMng.getBundle();
             // bundle = BundleMng.getBundle();
             initComponents();
-            
+
             RepositorioPalabras.load();
-            OFFSET_Y = (NOM_HEIGHT - CELDAS_V * ALTO_CELDA) / 2;
-            OFFSET_X = (NOM_WIDTH - CELDAS_H * ANCHO_CELDA) / 2;
+           
             FONT_SIZE_NUM = (int) Math.round(ALTO_CELDA * 0.32);
             FONT_SIZE_LETTER = (int) Math.round(ALTO_CELDA * 0.40);
             NUM_LEFT_MARGIN = (int) (ANCHO_CELDA * 0.1);
@@ -129,38 +128,50 @@ public class Main extends javax.swing.JFrame {
             method = scraperClass.getDeclaredMethod("getDefinition", String.class);
             jpm.setLightWeightPopupEnabled(false);
             //mainPanel.setComponentPopupMenu(jpm);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         // loadInternatStrings();
         loadLocaleStrings();
     }
-    
+
     public void loadLocaleStrings() {
         JButton[] buttons = {this.defsBtn, this.drawGridBtn, this.generateBtn, this.loadFromRemoteBtn,
             this.loadLocalBtn, this.saveImageBtn, this.saveToRemoteBtn, this.setDefsBtn, this.showLettersBtn,
-            this.showNumbersBtn, this.updateBtn, this.wordToolsBtn};
+            this.showNumbersBtn, this.updateBtn, this.wordToolsBtn, this.saveLocalBtn};
         BundleMng.getStrings(Arrays.asList(buttons));
-        
+
     }
-    
+
+    public void setCeldas_V(int celdas) {
+        CELDAS_V = celdas;
+    }
+
+    public void setCeldas_H(int celdas) {
+        CELDAS_H = celdas;
+    }
+
     public void setTitle() {
         char letter;
         letter = title.charAt(0);
         title = title.substring(1).concat(String.valueOf(letter));
         this.setTitle(title);
     }
-    
+
     private void crearBufferAndGraphics() {
         bufferedImg = (BufferedImage) mainPanel.createImage(mainPanel.getWidth(), mainPanel.getHeight());
         gr = (Graphics2D) bufferedImg.getGraphics(); //mainPanel.getGraphics();
     }
-    
+
     private void inicializar() throws IOException {
+        OFFSET_Y = (NOM_HEIGHT - CELDAS_V * ALTO_CELDA) / 2;
+        OFFSET_X = (NOM_WIDTH - CELDAS_H * ANCHO_CELDA) / 2;
         crucigramaInstance = new GorigramaEntity(CELDAS_V, CELDAS_H);
         crucigramaInstance.generar();
         crearBufferAndGraphics();
+        drawGridBW();
+        placeNumbers();
     }
 
     /**
@@ -471,6 +482,9 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void drawGrid(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawGrid
+        drawGridBW();
+    }//GEN-LAST:event_drawGrid
+    public void drawGridBW() {
         gr.setColor(Color.WHITE);
         gr.fillRect(OFFSET_X, OFFSET_Y, CELDAS_H * ANCHO_CELDA, CELDAS_V * ALTO_CELDA);
         gr.setColor(Color.BLACK);
@@ -485,9 +499,12 @@ public class Main extends javax.swing.JFrame {
             gr.drawLine(0 + OFFSET_X, j * ALTO_CELDA + OFFSET_Y, ancho + OFFSET_X, j * ALTO_CELDA + OFFSET_Y);
         }
         mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
-    }//GEN-LAST:event_drawGrid
-
+    }
     private void drawNumbers(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawNumbers
+        placeNumbers();
+
+    }//GEN-LAST:event_drawNumbers
+    public void placeNumbers() {
         try {
             if (crucigramaInstance == null) {
                 JOptionPane.showMessageDialog(mainPanel, "No se ha inicialiado ningun crucigrama", "Atención", JOptionPane.WARNING_MESSAGE);
@@ -495,10 +512,10 @@ public class Main extends javax.swing.JFrame {
                 nums = crucigramaInstance.generarNumeros();
                 String[][] lettersH = crucigramaInstance.getHorizontales();
                 String[][] lettersV = crucigramaInstance.getVerticales();
-                
+
                 System.out.println("ALTO : " + lettersH.length);
                 System.out.println("ANCHO : " + lettersH[0].length);
-                
+
                 gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_NUM));
                 for (int i = 0; i < nums[0].length; i++) {
                     for (int j = 0; j < nums.length; j++) {
@@ -515,11 +532,9 @@ public class Main extends javax.swing.JFrame {
                 mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
             }
         } catch (HeadlessException e) {
-            
+
         }
-
-    }//GEN-LAST:event_drawNumbers
-
+    }
     private void drawLetters(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawLetters
         gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_LETTER));
         String[][] lettersH = crucigramaInstance.getHorizontales();
@@ -544,7 +559,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_editDefs
 
     private void saveImage(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImage
-        
+
         if (crucigramaInstance != null) {
             IOFile saveFile = new IOFile(".jpeg", "Imagen del crucigrama", (boolean success, File file) -> {
                 System.out.println(success);
@@ -565,17 +580,26 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_saveImage
 
     private void generateBtnWords(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateBtnWords
+        /* try {
+            inicializar();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        SetDimsPopUp setDims = new SetDimsPopUp(this,CELDAS_H, CELDAS_V );
+        setDims.setLocationRelativeTo(this);
+        setDims.setVisible(true);
+    }//GEN-LAST:event_generateBtnWords
+    public void generar() {
         try {
             inicializar();
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_generateBtnWords
-
+    }
     private void update(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update
         update();
     }//GEN-LAST:event_update
-    
+
     private void update() {
         horizPairsList = new ArrayList();
         vertiPairList = new ArrayList();
@@ -602,7 +626,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_banWordCheckBoxItemStateChanged
 
     private void loadFromRemoteBtn(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromRemoteBtn
-        
+
         IOFile loadFile = new IOFile(".slzd", "Crucigrama Serializado", (boolean success, File file) -> {
             System.out.println(success);
             if (success) {
@@ -623,24 +647,24 @@ public class Main extends javax.swing.JFrame {
         wt.setLocationRelativeTo(this);
         wt.setVisible(true);
     }//GEN-LAST:event_wordToolsBtnsaveToJson
-    
+
     public void drawCross(Graphics2D gr, int xx, int yy) {
         Stroke stroke = new BasicStroke(5f);
         gr.setColor(Color.RED);
         gr.drawLine(xx - 10, yy - 10, xx + 10, yy + 10);
         gr.drawLine(xx - 10, yy + 10, xx + 10, yy - 10);
     }
-    
+
     public void drawCircle(Graphics2D gr, int xx, int yy) {
         Stroke stroke = new BasicStroke(5f);
-        
+
         gr.setStroke(stroke);
         gr.setColor(Color.GREEN);
         gr.drawOval(xx - 10, yy - 10, 20, 20);
     }
 
     private void mainPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseReleased
-        
+
         int xx = evt.getX();
         int yy = evt.getY();
         if (evt.getButton() == MouseEvent.BUTTON3) {
@@ -669,13 +693,13 @@ public class Main extends javax.swing.JFrame {
             }
             jpm.show(mainPanel, evt.getX(), evt.getY());
         }
-        
+
         if (evt.getButton() == MouseEvent.BUTTON1) {
             System.out.println("MOUSE CLICKED BUTTON 1");
             // drawCircle((Graphics2D) mainPanel.getGraphics(), evt.getX(), evt.getY());
-            
+
         }
-        
+
         if (evt.getButton() == 2) {
             mainPanel.getGraphics().drawImage(bufferedImg, 0, 0, null);
             crucigramaInstance.cleanStack();
@@ -754,7 +778,7 @@ public class Main extends javax.swing.JFrame {
                     break;
                 }
             }
-            
+
         } catch (Exception e) {
             System.out.println("Exception " + e);
         };

@@ -84,19 +84,29 @@ public class WordTool extends javax.swing.JFrame {
         jPanel1.add(resultadoBusquedaRestringida, java.awt.BorderLayout.PAGE_END);
 
         spacedLettersLabel.setFont(new java.awt.Font("JetBrains Mono NL SemiBold", 0, 13)); // NOI18N
-        spacedLettersLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        spacedLettersLabel.setText("0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 ");
+        spacedLettersLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        spacedLettersLabel.setText("0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32");
         spacedLettersLabel.setToolTipText("");
         jPanel1.add(spacedLettersLabel, java.awt.BorderLayout.CENTER);
 
         spacedWord.setFont(new java.awt.Font("JetBrains Mono NL SemiBold", 0, 20)); // NOI18N
-        spacedWord.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        spacedWord.setText("l d f s d f s d f s d f s f s d f s d f s a b c d e f g h i j ");
+        spacedWord.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        spacedWord.setText("a b c d e f g h i j l m n o p q r s t u v w a y z a b c d e f g h");
         jPanel1.add(spacedWord, java.awt.BorderLayout.PAGE_START);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         indicesDeRestriccionesField.setText("Ingrese los indices: 1,5,8, etc");
+        indicesDeRestriccionesField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                indicesDeRestriccionesFieldFocusGained(evt);
+            }
+        });
+        indicesDeRestriccionesField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                indicesDeRestriccionesFieldKeyTyped(evt);
+            }
+        });
         jPanel2.add(indicesDeRestriccionesField, java.awt.BorderLayout.CENTER);
 
         jLabel3.setText("Búsqueda con restricciones:");
@@ -268,13 +278,13 @@ public class WordTool extends javax.swing.JFrame {
         String word = searchWordField.getText().trim();
         String msg = "";
         if (RepositorioPalabras.getPalabras().contains(word)) {
-            msg = "PRESENTE EN LA LISTA DE PALABRAS";
+            msg = "PRESENTE EN REPOSITORIO DE PALABRAS";
             if (ce.getAlreadyTakenWords().contains(word)) {
 
-                msg += ", Y EN ALREADY TOKEN!!!!";
+                msg += ", Y EN CRUCIGRAMA!!!!";
             }
         } else if (ce.getAlreadyTakenWords().contains(word)) {
-            msg = "PRESENTE EN ALREADY TOKEN";
+            msg = "COLOCADA EN EL CRUCIGRAMA";
         } else {
             msg = "ESA PALABRA NO ESTA EN NINGUNA LISTA";
         }
@@ -349,6 +359,23 @@ public class WordTool extends javax.swing.JFrame {
 
         spacedWord.setText(monoespaced.trim());
     }//GEN-LAST:event_palabraConRestriccionesFieldCaretUpdate
+
+    private void indicesDeRestriccionesFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_indicesDeRestriccionesFieldFocusGained
+         indicesDeRestriccionesField.selectAll();
+    }//GEN-LAST:event_indicesDeRestriccionesFieldFocusGained
+
+    private void indicesDeRestriccionesFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_indicesDeRestriccionesFieldKeyTyped
+        int key = evt.getKeyChar();
+
+    boolean numeros = key >= 48 && key <= 57;
+        
+    if (!numeros)
+    {
+        evt.consume();
+    }
+
+ 
+    }//GEN-LAST:event_indicesDeRestriccionesFieldKeyTyped
 
     /**
      * @param args the command line arguments
