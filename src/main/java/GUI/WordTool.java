@@ -318,11 +318,11 @@ public class WordTool extends javax.swing.JFrame {
         String msg = "";
         if (RepositorioPalabras.getPalabras().contains(word)) {
             msg = "PRESENTE EN LA LISTA DE PALABRAS";
-            if (ce.getAlreadyTokenWords().contains(word)) {
+            if (ce.getAlreadyTakenWords().contains(word)) {
 
                 msg += ", Y EN ALREADY TOKEN!!!!";
             }
-        } else if (ce.getAlreadyTokenWords().contains(word)) {
+        } else if (ce.getAlreadyTakenWords().contains(word)) {
             msg = "PRESENTE EN ALREADY TOKEN";
         } else {
             msg = "ESA PALABRA NO ESTA EN NINGUNA LISTA";

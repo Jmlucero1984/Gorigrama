@@ -14,8 +14,6 @@ public class SerializedJson {
     
     static String filePath="src/main/resources/userPreferences/";
  
-
-
     public static void saveToJson(GorigramaEntity crucigrama) throws IOException {
         String name = SessionData.newSessionEntry();
         File file = new File(filePath+"GR-"+name+".json");
@@ -28,7 +26,7 @@ public class SerializedJson {
         definiciones        - HashMap<String,String>
         horizontales        - String[][]   
         verticales          - String[][]
-        alreadyTokenWords   - List<String>
+        alreadyTakenWords   - List<String>
         numeros             - int[][]
         horizPairsList      - List<Pair<Integer, String>> 
         vertiPairList       - List<Pair<Integer, String>> 
@@ -46,20 +44,14 @@ public class SerializedJson {
         loadedCrucigrama.setDefiniciones(objectMapper.readValue(rootNode.get("definiciones").toString(),HashMap.class));
         loadedCrucigrama.setHorizontales(objectMapper.readValue(rootNode.get("horizontales").toString(),List.class));
         loadedCrucigrama.setVerticales(objectMapper.readValue(rootNode.get("verticales").toString(),List.class));
-        loadedCrucigrama.setAlreadyTokenWords(objectMapper.readValue(rootNode.get("alreadyTokenWords").toString(),List.class));
-     
-                
-  
+        loadedCrucigrama.setAlreadyTakenWords(objectMapper.readValue(rootNode.get("alreadyTakenWords").toString(),List.class));
         return loadedCrucigrama;
-        
     }
   
   
      public static <T> T[][] createTwoDimensionalArray(Class<T> clase,String cadena) {
          
         List<List<T>> d2lista;
-        
-    //    T[][] array = (T[][]) Array.newInstance(clase, rows, columns);
         return null;
     }
 

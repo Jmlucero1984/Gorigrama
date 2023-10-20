@@ -604,6 +604,21 @@ public class Main extends javax.swing.JFrame {
         wt.setVisible(true);
     }//GEN-LAST:event_wordToolsBtnsaveToJson
 
+    
+    public void drawCross(Graphics2D gr, int xx, int yy) {
+            Stroke stroke = new BasicStroke(5f);
+            gr.setColor(Color.RED);
+            gr.drawLine(xx - 10, yy - 10, xx + 10, yy + 10);
+            gr.drawLine(xx - 10, yy + 10, xx + 10, yy - 10);
+    }
+    
+    public void drawCircle(Graphics2D gr, int xx, int yy) {
+            Stroke stroke = new BasicStroke(5f);
+   
+            gr.setStroke(stroke);
+            gr.setColor(Color.GREEN);
+            gr.drawOval(xx - 10, yy - 10, 20, 20);
+    }
 
     private void mainPanelMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseReleased
 
@@ -611,17 +626,11 @@ public class Main extends javax.swing.JFrame {
         int yy = evt.getY();
         if (evt.getButton() == MouseEvent.BUTTON3) {
             System.out.println("MOUSE CLICKED BUTTON 3");
-            Stroke stroke = new BasicStroke(5f);
-            Graphics2D gr = (Graphics2D) mainPanel.getGraphics();
-            gr.setStroke(stroke);
-            gr.setColor(Color.RED);
-            gr.drawLine(xx - 10, yy - 10, xx + 10, yy + 10);
-            gr.drawLine(xx - 10, yy + 10, xx + 10, yy - 10);
-            System.out.println(evt.getX() + "   " + evt.getY());
+           // drawCross((Graphics2D) mainPanel.getGraphics(), evt.getX(), evt.getY());
             jpm.removeAll();
             // jpm.setOpaque(false);
             Pair<WordItem, WordItem> foundedWords = crucigramaInstance.locateWords((int) ((xx - OFFSET_X) / (ANCHO_CELDA)), (int) (yy - OFFSET_Y) / (ALTO_CELDA));
-            if (foundedWords.first != null) {
+            if (foundedWords!=null && foundedWords.first!=null) {
                 JMenuItem h = new JMenuItem(foundedWords.first.getWord());
                 h.addActionListener((ActionEvent ae) -> {
                     System.out.println(foundedWords.first.getWord());
@@ -630,7 +639,7 @@ public class Main extends javax.swing.JFrame {
                 });
                 jpm.add(h);
             }
-            if (foundedWords.second != null) {
+            if (foundedWords!=null && foundedWords.second != null) {
                 JMenuItem v = new JMenuItem(foundedWords.second.getWord());
                 v.addActionListener((ActionEvent ae) -> {
                     System.out.println(foundedWords.second.getWord());
@@ -644,11 +653,8 @@ public class Main extends javax.swing.JFrame {
 
         if (evt.getButton() == MouseEvent.BUTTON1) {
             System.out.println("MOUSE CLICKED BUTTON 1");
-            Stroke stroke = new BasicStroke(5f);
-            Graphics2D gr = (Graphics2D) mainPanel.getGraphics();
-            gr.setStroke(stroke);
-            gr.setColor(Color.GREEN);
-            gr.drawOval(xx - 10, yy - 10, 20, 20);
+           // drawCircle((Graphics2D) mainPanel.getGraphics(), evt.getX(), evt.getY());
+           
         }
 
         if (evt.getButton() == 2) {

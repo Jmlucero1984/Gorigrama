@@ -4,11 +4,11 @@
  */
 package GUI;
 
-import Utils.CallBackFn;
 import Utils.FileTypeFilter;
  
 import java.io.File;
 import javax.swing.JFileChooser;
+import Utils.ICallback;
 
 /**
  *
@@ -21,7 +21,7 @@ public class IOFile extends javax.swing.JFrame {
     }
  
 
-    CallBackFn callback;
+    ICallback callback;
 
     public IOFile() {
         initComponents();
@@ -38,7 +38,7 @@ public class IOFile extends javax.swing.JFrame {
         this.jFileChooser1.addChoosableFileFilter(jsonFilter);
     }
 
-    public IOFile(String type, String description, CallBackFn callback,TipoDialog tipoDialog ) {
+    public IOFile(String type, String description, ICallback callback,TipoDialog tipoDialog ) {
         this(type,description);
         this.callback = callback;
         if(tipoDialog==TipoDialog.SAVE){

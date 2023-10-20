@@ -28,7 +28,7 @@ public class GorigramaEntity implements Serializable {
     String[][] palabrasArrayV;
     List<String> horizontales;
     List<String> verticales;
-    List<String> alreadyTokenWords = new ArrayList<>();
+    List<String> alreadyTakenWords = new ArrayList<>();
     Integer[][] numeros;
 
     List<Pair<Integer, String>> horizPairsList = new ArrayList();
@@ -129,7 +129,7 @@ public class GorigramaEntity implements Serializable {
         }
         for (int i = 0; i < altoCeldas; i++) {
             if (i % 2 == 0) {
-                palabrasArrayH[i] = encontrarPalabras(anchoCeldas, RepositorioPalabras.getPalabras(), alreadyTokenWords, true);
+                palabrasArrayH[i] = encontrarPalabras(anchoCeldas, RepositorioPalabras.getPalabras(), alreadyTakenWords, true);
             }
         }
 
@@ -181,7 +181,7 @@ public class GorigramaEntity implements Serializable {
             for (int i = word.getInitX(); i < word.getEndX(); i++) {
                 palabrasArrayH[word.getInitY()][i] = " ";
             }
-            alreadyTokenWords.remove(word.getWord());
+            alreadyTakenWords.remove(word.getWord());
             replaceHorizontals();
             actualizarHorizontales();
 
@@ -190,7 +190,7 @@ public class GorigramaEntity implements Serializable {
             for (int i = word.getInitY(); i < word.getEndY(); i++) {
                 palabrasArrayV[i][word.getInitX()] = " ";
             }
-            alreadyTokenWords.remove(word.getWord());
+            alreadyTakenWords.remove(word.getWord());
             refillVerticalWords(true);
             actualizarVerticales();
             //Does not return to the words source, it's supposed this is a oddly one
@@ -255,9 +255,9 @@ public class GorigramaEntity implements Serializable {
     }
 
     private String bestMatch(String word) {
-        for (int i = 0; i < alreadyTokenWords.size(); i++) {
-            if (alreadyTokenWords.get(i).replaceAll("-", "").equals(word)) {
-                return alreadyTokenWords.get(i);
+        for (int i = 0; i < alreadyTakenWords.size(); i++) {
+            if (alreadyTakenWords.get(i).replaceAll("-", "").equals(word)) {
+                return alreadyTakenWords.get(i);
             }
         }
         return word;
@@ -298,10 +298,10 @@ public class GorigramaEntity implements Serializable {
             List<String> candidates = new ArrayList();
             int[] indexes = getEmptySpaceIndexes(palabrasArrayH[i]);
             if (indexes[0] > 1) {
-                if (findWordsForFilling(indexes[0], indexes[1], wordSource, alreadyTokenWords, candidates, palabrasArrayV[i])) {
+                if (findWordsForFilling(indexes[0], indexes[1], wordSource, alreadyTakenWords, candidates, palabrasArrayV[i])) {
                     System.out.println("CANDIDATES");
                     candidates.forEach(System.out::println);
-                    alreadyTokenWords.addAll(candidates);
+                    alreadyTakenWords.addAll(candidates);
                     fillWithWords(candidates, palabrasArrayH[i], indexes[1]);
                 }
             }
@@ -405,52 +405,51 @@ public class GorigramaEntity implements Serializable {
         String newWord;
         boolean founded = false;
         boolean goodFit = true;
-        int indexOfPalabras = 0;
+   
         boolean continuar = true;
 
         for (int j = 0; j < anchoCeldas && continuar; j += 2) {
             int init = 0, end = 0;
             for (int i = 0; i < altoCeldas - 1 && continuar; i += 2) {
-
                 if (palabrasArrayV[i][j].equals(" ")) {
-                    init = i;
-                    end = i;
-                    while (end < altoCeldas - 1 && palabrasArrayV[end + 1][j].equals(" ")) {
-                        end++;
+                     init = i;
+                     end = i;
+                    while (end < altoCeldas-2  && palabrasArrayV[end +2][j].equals(" ")&& !palabrasArrayH[end+2][j].equals(" ")) {
+                        end+=2;
                     }
+                    int largo = end - init+1;
+                    if (largo < 3) {
+                        continue;
+                    }
+                    List<String> wordSource = RepositorioPalabras.getPalabrasImpares();
+                    for (int k = 0;!founded && k < wordSource.size(); k++) {
+                        newWord = RepositorioPalabras.getPalabrasImpares().get(k);
 
-                }
-                int largo = end - init + 1;
-                if (largo < 3) {
-                    continue;
-                }
-                while (!founded && indexOfPalabras < RepositorioPalabras.getPalabrasImpares().size()) {
-                    newWord = RepositorioPalabras.getPalabrasImpares().get(indexOfPalabras);
-                    if (newWord.length() <= largo && !alreadyTokenWords.contains(newWord)) {
-                        goodFit = true;
-                        for (int k = 0; k < newWord.length(); k += 2) {
-                            if (!(newWord.substring(k, k + 1).equalsIgnoreCase(palabrasArrayH[init + k][j]))) {
-                                goodFit = false;
-                                break;
+                        if (newWord.length() <= largo && !alreadyTakenWords.contains(newWord)) {
+                            goodFit = true;
+                            for (int l = 0; l < newWord.length(); l += 2) {
+                                if (!(newWord.substring(l, l + 1).equalsIgnoreCase(palabrasArrayH[init + l][j]))) {
+                                    goodFit = false;
+                                    break;
+                                }
+                            }
+                            if (goodFit) {
+                                founded = true;
+                                for (int l = 0; l < newWord.length(); l++) {
+                                    palabrasArrayV[init + l][j] = newWord.substring(l, l + 1);
+                                    alreadyTakenWords.add(newWord);
+
+                                }
+                                i += newWord.length() - 1;
+                                continuar = allGrid;
                             }
                         }
-                        if (goodFit) {
-                            founded = true;
-                            for (int k = 0; k < newWord.length(); k++) {
-                                palabrasArrayV[init + k][j] = newWord.substring(k, k + 1);
-                                alreadyTokenWords.add(newWord);
-
-                            }
-                            i += newWord.length() - 1;
-                            continuar = allGrid;
-                        }
                     }
-                    indexOfPalabras++;
 
                 }
 
                 //REF OLD CODE 001
-                indexOfPalabras = 0;
+      
                 founded = false;
             }
         }
@@ -603,8 +602,8 @@ public class GorigramaEntity implements Serializable {
         return MIN_LEN;
     }
 
-    public List<String> getAlreadyTokenWords() {
-        return alreadyTokenWords;
+    public List<String> getAlreadyTakenWords() {
+        return alreadyTakenWords;
     }
 
     public int getAnchoCeldas() {
@@ -619,8 +618,8 @@ public class GorigramaEntity implements Serializable {
         this.verticales = verticales;
     }
 
-    public void setAlreadyTokenWords(List<String> alreadyTokenWords) {
-        this.alreadyTokenWords = alreadyTokenWords;
+    public void setAlreadyTakenWords(List<String> alreadyTakenWords) {
+        this.alreadyTakenWords = alreadyTakenWords;
     }
 
     public void setNumeros(Integer[][] numeros) {

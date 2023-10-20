@@ -15,16 +15,19 @@ import java.util.logging.Logger;
 
 public class SplashGorigrama  extends Main implements ActionListener  {
     static void renderSplashFrame(Graphics2D g, int frame) {
-        final String[] comps = {"Crucigramas", "Autodefinidos", "Ejercicios Mentales"};
+        // What a bunch of lies... How many things in life are just a parade of crap...
+        final String[] comps = {
+            "Crucigramas",
+            "Autodefinidos",
+            "Ejercicios Mentales"
+        };
         Font font;
         try {
-                    font = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/fonts/JetBrainsMono-Medium.ttf"))
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/fonts/JetBrainsMono-Medium.ttf"))
                     .deriveFont(12f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(font);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
         //  g.setComposite(AlphaComposite.Clear);
@@ -66,7 +69,8 @@ public class SplashGorigrama  extends Main implements ActionListener  {
         System.exit(0);
     }
     
-    private static WindowListener closeWindow = new WindowAdapter(){
+    private static final WindowListener closeWindow = new WindowAdapter(){
+        @Override
         public void windowClosing(WindowEvent e){
             e.getWindow().dispose();
         }

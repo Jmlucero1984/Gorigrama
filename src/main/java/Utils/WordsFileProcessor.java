@@ -25,10 +25,7 @@ public class WordsFileProcessor {
 
         BufferedReader br = null;
         String st;
-        /*************************************/
-     
-        /************************************/
-
+        
         String path = "src\\main\\resources\\Palabras\\"+letter.toUpperCase()+".txt";
         file = new File(path);
         br = new BufferedReader(new FileReader(file));
@@ -43,14 +40,14 @@ public class WordsFileProcessor {
             String[] cuts = st.toLowerCase().trim().split(" ");
             for (String cut : cuts) {
                 if (cut.startsWith(letter)) {
-                    cut.replace(",","");
-                    palabrasBritannica.add(cut);
+                    String replace = cut.replace(",","");
+                    palabrasBritannica.add(replace);
                 }
             }
 
         }
         path = "src\\main\\resources\\Britannica\\brit_"+letter+"_cleaned.txt";
-        file = new File(path);
+    
 
         FileWriter fw = new FileWriter(path, true); //the true will append the new data
         for (String string : palabrasBritannica) {
