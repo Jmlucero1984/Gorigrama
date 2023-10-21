@@ -31,14 +31,18 @@ import Utils.Pair;
 
 import Utils.WordItem;
 import com.formdev.flatlaf.FlatDarculaLaf;
+import com.github.weisj.jsvg.util.ImageUtil;
 import java.awt.Component;
 
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
+import java.awt.image.ColorModel;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -317,7 +321,7 @@ public class Main extends javax.swing.JFrame {
         });
         leftPanel.add(saveImageBtn);
 
-        updateBtn.setText("Update");
+        updateBtn.setText("Print");
         updateBtn.setMinimumSize(new java.awt.Dimension(150, 20));
         updateBtn.setPreferredSize(new java.awt.Dimension(150, 15));
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -597,7 +601,13 @@ public class Main extends javax.swing.JFrame {
         }
     }
     private void update(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update
-        update();
+        //update();
+        BufferedImage  bfToPrint;
+        bfToPrint = bufferedImg.getSubimage(OFFSET_X, OFFSET_Y, ANCHO_CELDA*CELDAS_H, ALTO_CELDA*CELDAS_V);
+        TextWrapper tw = new TextWrapper(bfToPrint);
+ 
+         tw.setLocationRelativeTo(this);
+        tw.setVisible(true);
     }//GEN-LAST:event_update
 
     private void update() {
