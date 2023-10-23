@@ -4,17 +4,29 @@
  */
 package GUI;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.image.AffineTransformOp;
+import static java.awt.image.AffineTransformOp.TYPE_BICUBIC;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.awt.print.Printable;
+import static java.awt.print.Printable.NO_SUCH_PAGE;
+import static java.awt.print.Printable.PAGE_EXISTS;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.text.MessageFormat;
@@ -22,29 +34,38 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
-import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.JobName;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+
 import javax.swing.text.Element;
-import javax.swing.text.Position;
-import javax.swing.text.Segment;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import javax.imageio.ImageIO;
+import org.apache.fontbox.util.autodetect.FontFileFinder;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
  *
  * @author jmlucero
  */
-public class TextWrapper extends javax.swing.JFrame implements Printable {
+public class TextWrapper extends javax.swing.JFrame {
 
     /**
      * Creates new form TextWrapper
@@ -71,21 +92,22 @@ public class TextWrapper extends javax.swing.JFrame implements Printable {
             + " Aún con todas sus farsas, penalidades y sueños fallidos, el mundo es todavía hermoso. Sé alegre. "
             + "Esfuérzate por ser feliz";
 
-    Document doc;
+    javax.swing.text.Document doc;
     SimpleAttributeSet normal;
     BufferedImage bfToPrint;
+    ImagePanel imp = new ImagePanel();
 
     public TextWrapper() {
         initComponents();
 
-        doc = this.jTextPane1.getDocument();
+        doc = this.jTextPane2.getDocument();
 
     }
-    
-    public TextWrapper(BufferedImage bf){
+
+    public TextWrapper(BufferedImage bf) {
         this();
         this.bfToPrint = bf;
-        
+
     }
 
     /**
@@ -95,32 +117,82 @@ public class TextWrapper extends javax.swing.JFrame implements Printable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
         jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
         jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new ImagePanel();
+        jTextPane3 = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane2 = new javax.swing.JTextPane();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jScrollPane1.setViewportView(jEditorPane1);
-
-        jButton1.setText("jButton1");
+        jButton1.setText("LOAD");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jTextPane1.setDoubleBuffered(true);
-        jTextPane1.setStyledDocument(jTextPane1.getStyledDocument());
-        jScrollPane2.setViewportView(jTextPane1);
-
-        jButton2.setText("jButton2");
+        jButton2.setText("PRINT");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new java.awt.GridLayout(2, 1));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 153));
+        jPanel2.setDoubleBuffered(false);
+        jPanel2.setPreferredSize(new java.awt.Dimension(500, 300));
+        jPanel2.setRequestFocusEnabled(false);
+
+        jTextPane3.setBackground(new java.awt.Color(153, 255, 204));
+        jTextPane3.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jTextPane3.setPreferredSize(new java.awt.Dimension(595, 300));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 595, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jTextPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 259, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jTextPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jPanel1.add(jPanel2);
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTextPane2.setBackground(new java.awt.Color(153, 255, 204));
+        jTextPane2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jTextPane2.setPreferredSize(new java.awt.Dimension(595, 300));
+        jScrollPane1.setViewportView(jTextPane2);
+
+        jPanel1.add(jScrollPane1);
+
+        jButton3.setText("SAVE TO PDF");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveToPdf(evt);
             }
         });
 
@@ -129,61 +201,88 @@ public class TextWrapper extends javax.swing.JFrame implements Printable {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(375, 375, 375)
+                .addContainerGap(159, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(27, 27, 27)
+                .addGap(40, 40, 40)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(74, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(37, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(26, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jButton2)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(593, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addGap(37, 37, 37))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(69, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(69, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
+    }
 
+    private BufferedImage scaleAffine(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        AffineTransform tx = AffineTransform.getScaleInstance(0.5, 0.5);
+        tx.translate(0, 30);
+        BufferedImageOp bdop = new AffineTransformOp(tx, TYPE_BICUBIC);
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, bdop, 0, 0);
+        graphics2D.dispose();
+
+        return resizedImage;
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jEditorPane1.setText(desiderata);
 
         try {
-             //Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\jmluc\\Desktop\\cruci__.jpg");
-      //  ImageIcon icon = new ImageIcon(image);
-        //    jTextPane1.insertIcon(icon);
-       
-       ImageIcon icon = new ImageIcon(bfToPrint);
-  
-        // gr.drawImage(bfToPrint, 0   , 0, null);
-          
-                jTextPane1.insertIcon(icon);
-        
+            //Image image = Toolkit.getDefaultToolkit().getImage("C:\\Users\\jmluc\\Desktop\\cruci__.jpg");
+            //  ImageIcon icon = new ImageIcon(image);
+            //    jTextPane1.insertIcon(icon);
+
+            ImageIcon icon = new ImageIcon(scaleAffine(bfToPrint, 400, 300));
+            jTextPane3.insertIcon(icon);
+            // gr.drawImage(bfToPrint, 0   , 0, null);
+
+            /*AffineTransform tx = AffineTransform.getScaleInstance(0.5, 0.5);
+            tx.translate(0, 30);
+            BufferedImageOp  bdop = new AffineTransformOp(tx, TYPE_BICUBIC);
+            Graphics2D gr = (Graphics2D) bfToPrint.getGraphics();
+            gr.drawImage(bfToPrint, bdop, 0, 0);
+            gr.dispose();*/
+            ((ImagePanel) jPanel2).setImage(resizeImage(bfToPrint, 400, 300));
             normal = new SimpleAttributeSet();
             StyleConstants.setAlignment(normal, StyleConstants.ALIGN_JUSTIFIED);
-            StyleConstants.setForeground(normal, Color.red);
-            StyledDocument documentStyle = jTextPane1.getStyledDocument();
+            StyleConstants.setForeground(normal, Color.BLACK);
+            StyledDocument documentStyle = jTextPane2.getStyledDocument();
+
             documentStyle.setParagraphAttributes(0, documentStyle.getLength(), normal, false);
             doc.insertString(doc.getLength(), desiderata, normal);
 
-            this.jTextPane1.setDocument(doc);
+            jTextPane2.setDocument(doc);
+            jTextPane2.setSize(500, 1000);
+
         } catch (BadLocationException ex) {
+            Logger.getLogger(TextWrapper.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(TextWrapper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -195,28 +294,111 @@ public class TextWrapper extends javax.swing.JFrame implements Printable {
         PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
         attributes.add(OrientationRequested.PORTRAIT);
 
-        try {
-            jTextPane1.print(headerFormat, footerFormat, true, service, attributes, true);
+        attributes.add(new JobName("My job", null));
 
-            /*PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable((Printable) this);
-            boolean ok = job.printDialog();
-            if (ok) {
-            try {
-            job.print();
-            } catch (PrinterException ex) {
-            
+        PrinterJob pj = PrinterJob.getPrinterJob();
+        Printable pt = new Printable() {
+            @Override
+            public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
+                if (page > 0) {
+                    /* We have only one page, and 'page' is zero-based */
+                    return NO_SUCH_PAGE;
+                }
+
+                /* User (0,0) is typically outside the imageable area, so we must
+         * translate by the X and Y values in the PageFormat to avoid clipping
+                 */
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.translate(pf.getImageableX(), pf.getImageableY());
+
+                /* Now print the window and its visible contents */
+                jPanel1.printAll(g);
+
+                /* tell the caller that this page is part of the printed document */
+                return PAGE_EXISTS;
             }
-            } */
-        } catch (PrinterException ex) {
+        };
+
+        pj.setPrintable(pt);
+
+        /* locate a print service that can handle the request */
+        PrintService[] services = PrinterJob.lookupPrintServices();
+
+        System.out.println("selected printer " + services[2].getName());
+        try {
+            pj.setPrintService(services[2]);
+            pj.pageDialog(attributes);
+            if (pj.printDialog(attributes)) {
+                pj.print(attributes);
+            }
+        } catch (PrinterException pe) {
+            System.err.println(pe);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+public byte[] convertImageToByteArray(BufferedImage image, String format) {
+    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+    try {
+        // Write the BufferedImage to the ByteArrayOutputStream in the specified format
+        ImageIO.write(image, format, byteArrayOutputStream);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    // Get the byte array from the ByteArrayOutputStream
+    return byteArrayOutputStream.toByteArray();
+}
+    private void saveToPdf(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToPdf
+        com.itextpdf.text.Document pdfDoc = new com.itextpdf.text.Document(PageSize.A4);
+        try {
+            PdfWriter.getInstance(pdfDoc, new FileOutputStream("C:\\Users\\jmluc\\Desktop\\c.pdf"))
+                    .setPdfVersion(PdfWriter.PDF_VERSION_1_7);
+            pdfDoc.open();
+    
+
+            com.itextpdf.text.Font myfo;
+             
+             FontFactory.register("src\\main\\resources\\fonts\\JetBrainsMono-Medium.ttf", "JetBrains");
+              FontFactory.registerDirectory("src\\main\\resources\\fonts");
+               myfo = FontFactory.getFont("jetbrains", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+             System.out.println("REGISTERED FONTS");
+             System.out.println(FontFactory.getRegisteredFonts());
+               System.out.println("REGISTERED FAMILIES");
+             System.out.println(FontFactory.getRegisteredFamilies());
+        
+       
+   
+           
+        
+            //myfo.setStyle(com.itextpdf.text.Font.NORMAL);
+            myfo.setSize(12);
+            pdfDoc.add(new Paragraph("\n"));
+            com.itextpdf.text.Image img = new com.itextpdf.text.Jpeg(convertImageToByteArray(bfToPrint,"JPG"));
+            img.setDpi(150, 150);
+            img.scaleToFit(500, 500);
+            pdfDoc.add(img);
+            pdfDoc.add(new Paragraph("\n"));
+ 
+            
+            
+            
+            //BufferedReader br = new BufferedReader(new FileReader(filename));
+            //String strLine;
+            /*while ((strLine = br.readLine()) != null) {
+			Paragraph para = new Paragraph(strLine + "\n", myfont);
+			para.setAlignment(Element.ALIGN_JUSTIFIED);
+			pdfDoc.add(para);
+            }*/
+            Paragraph para = new Paragraph(desiderata, myfo);
+            para.setAlignment(com.itextpdf.text.Element.ALIGN_JUSTIFIED);
+            pdfDoc.add(para);
+
+            pdfDoc.close();
+        } catch (Exception ex) {
             Logger.getLogger(TextWrapper.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }//GEN-LAST:event_saveToPdf
 
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -252,26 +434,12 @@ public class TextWrapper extends javax.swing.JFrame implements Printable {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JTextPane jTextPane3;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public int print(Graphics grphcs, PageFormat pf, int page) throws PrinterException {
-        if (page > 0) {
-            /* We have only one page, and 'page' is zero-based */
-            return NO_SUCH_PAGE;
-        }
-
-        /* User (0,0) is typically outside the imageable area, so we must
-         * translate by the X and Y values in the PageFormat to avoid clipping
-         */
-        Graphics2D g2d = (Graphics2D) jTextPane1.getGraphics();
-        g2d.translate(pf.getImageableX(), pf.getImageableY());
-
-        /* tell the caller that this page is part of the printed document */
-        return PAGE_EXISTS;
-    }
 }

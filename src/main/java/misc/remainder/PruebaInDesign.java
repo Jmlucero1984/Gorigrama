@@ -3,7 +3,9 @@ package misc.remainder;
 
 import Utils.IDExporter;
 import static Utils.SessionData.saveSession;
+ 
 import Utils.WordsFileProcessor;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /* @author jmlucero */
@@ -11,8 +13,6 @@ public class PruebaInDesign {
     
     public static void main(String[] args) throws IOException {
         
-        
-        WordsFileProcessor.proccessFiles("p");
  
         
         
