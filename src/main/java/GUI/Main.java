@@ -32,6 +32,12 @@ import Utils.Pair;
 import Utils.WordItem;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.github.weisj.jsvg.util.ImageUtil;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Component;
 
 import java.awt.HeadlessException;
@@ -43,6 +49,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import java.awt.image.ColorModel;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -105,7 +113,7 @@ public class Main extends javax.swing.JFrame {
             initComponents();
 
             RepositorioPalabras.load();
-           
+
             FONT_SIZE_NUM = (int) Math.round(ALTO_CELDA * 0.32);
             FONT_SIZE_LETTER = (int) Math.round(ALTO_CELDA * 0.40);
             NUM_LEFT_MARGIN = (int) (ANCHO_CELDA * 0.1);
@@ -171,7 +179,7 @@ public class Main extends javax.swing.JFrame {
     private void inicializar() throws IOException {
         OFFSET_Y = (NOM_HEIGHT - CELDAS_V * ALTO_CELDA) / 2;
         OFFSET_X = (NOM_WIDTH - CELDAS_H * ANCHO_CELDA) / 2;
-        crucigramaInstance = new GorigramaEntity(CELDAS_V, CELDAS_H);
+        crucigramaInstance = new GorigramaEntity(CELDAS_V, CELDAS_H, OFFSET_Y, OFFSET_X);
         crucigramaInstance.generar();
         crearBufferAndGraphics();
         drawGridBW();
@@ -490,7 +498,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_drawGrid
     public void drawGridBW() {
         gr.setColor(Color.WHITE);
-        gr.fillRect(OFFSET_X, OFFSET_Y, CELDAS_H * ANCHO_CELDA, CELDAS_V * ALTO_CELDA);
+        gr.fillRect(0, 0, mainPanel.getWidth(), mainPanel.getHeight());
         gr.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(2f);
         int ancho = CELDAS_H * ANCHO_CELDA;
@@ -538,6 +546,20 @@ public class Main extends javax.swing.JFrame {
         } catch (HeadlessException e) {
 
         }
+    }
+
+    public byte[] convertImageToByteArray(BufferedImage image, String format) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        try {
+            // Write the BufferedImage to the ByteArrayOutputStream in the specified format
+            ImageIO.write(image, format, byteArrayOutputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Get the byte array from the ByteArrayOutputStream
+        return byteArrayOutputStream.toByteArray();
     }
     private void drawLetters(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawLetters
         gr.setFont(new Font("TimesRoman", Font.BOLD, FONT_SIZE_LETTER));
@@ -589,7 +611,7 @@ public class Main extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        SetDimsPopUp setDims = new SetDimsPopUp(this,CELDAS_H, CELDAS_V );
+        SetDimsPopUp setDims = new SetDimsPopUp(this, CELDAS_H, CELDAS_V);
         setDims.setLocationRelativeTo(this);
         setDims.setVisible(true);
     }//GEN-LAST:event_generateBtnWords
@@ -602,12 +624,13 @@ public class Main extends javax.swing.JFrame {
     }
     private void update(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update
         //update();
-        BufferedImage  bfToPrint;
-        bfToPrint = bufferedImg.getSubimage(OFFSET_X, OFFSET_Y, ANCHO_CELDA*CELDAS_H, ALTO_CELDA*CELDAS_V);
-        TextWrapper tw = new TextWrapper(bfToPrint);
- 
-         tw.setLocationRelativeTo(this);
-        tw.setVisible(true);
+        /* BufferedImage bfToPrint;
+        bfToPrint = bufferedImg.getSubimage(OFFSET_X, OFFSET_Y, ANCHO_CELDA * CELDAS_H, ALTO_CELDA * CELDAS_V);
+        TextWrapper tw = new TextWrapper(bfToPrint, crucigramaInstance);
+
+        tw.setLocationRelativeTo(this);
+        tw.setVisible(true);*/
+        saveToPDF();
     }//GEN-LAST:event_update
 
     private void update() {
@@ -736,6 +759,12 @@ public class Main extends javax.swing.JFrame {
                 try {
                     System.out.println("FILE.ABS.PATH: " + file.getAbsolutePath());
                     crucigramaInstance = SerializedNormal.loadSerialized(file);
+                    this.OFFSET_X = crucigramaInstance.getOffsetx();
+                    this.OFFSET_Y = crucigramaInstance.getOffsety();
+                    mainPanel.getGraphics().dispose();
+                    this.CELDAS_H = crucigramaInstance.getNumCeldasH();
+                    this.CELDAS_V = crucigramaInstance.getNumCeldasV();
+
                 } catch (IOException ex) {
                     System.out.println("EXCEPTION E: " + ex);
                 }
@@ -745,6 +774,75 @@ public class Main extends javax.swing.JFrame {
         loadFile.setVisible(true);
     }//GEN-LAST:event_loadLocalBtnActionPerformed
 
+    private void saveToPDF() {
+
+        if (crucigramaInstance != null) {
+            IOFile saveFile = new IOFile(".pdf", "PDF del crucigrama", (boolean success, File file) -> {
+                System.out.println(success);
+                if (success) {
+                    try {
+                        String definiciones = "";
+                        com.itextpdf.text.Document pdfDoc = new com.itextpdf.text.Document(PageSize.A4);
+                        System.out.println("FILE.ABS.PATH: " + file.getAbsolutePath());
+                        File destination = new File(file.getParent() + "\\" + Utils.FixFileName.fixFileName(file, "pdf"));
+                        PdfWriter.getInstance(pdfDoc, new FileOutputStream(destination))
+                                .setPdfVersion(PdfWriter.PDF_VERSION_1_7);
+                        pdfDoc.open();
+                        com.itextpdf.text.Font myfo;
+
+                        FontFactory.register("src\\main\\resources\\fonts\\JetBrainsMono-Medium.ttf", "JetBrains");
+                        FontFactory.registerDirectory("src\\main\\resources\\fonts");
+                        myfo = FontFactory.getFont("jetbrains", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                        System.out.println("REGISTERED FONTS: " + FontFactory.getRegisteredFonts());
+                        System.out.println("REGISTERED FAMILIES: " + FontFactory.getRegisteredFamilies());
+
+                        //myfo.setStyle(com.itextpdf.text.Font.NORMAL);
+                        
+                        
+                        Image titleImg =  Toolkit.getDefaultToolkit().getImage("src\\main\\resources\\imgs\\titulo.png");
+                        com.itextpdf.text.Image titleImgElement =com.itextpdf.text.Image.getInstance(titleImg, null);
+                         titleImgElement.setDpi(150, 150);
+                        titleImgElement.scaleToFit(150, 500);
+                        pdfDoc.add(titleImgElement);
+                        
+                        
+                        
+                        myfo.setSize(10);
+                        
+                        BufferedImage buffForPdf = bufferedImg.getSubimage(OFFSET_X, OFFSET_Y, ANCHO_CELDA * CELDAS_H, ALTO_CELDA * CELDAS_V);
+                        com.itextpdf.text.Image img = new com.itextpdf.text.Jpeg(convertImageToByteArray(buffForPdf, "JPG"));
+                        img.setDpi(150, 150);
+                        img.scaleToFit(520, 500);
+                        pdfDoc.add(img);
+                        pdfDoc.add(new Paragraph("\n"));
+                        definiciones += "HORIZONTALES\n ";
+                        for (Pair<Integer, String> pair : crucigramaInstance.getHorizPairsList()) {
+                            String def = crucigramaInstance.getDefiniciones().get(pair.second).split("\n")[0]; //Supposed to have multiple defs
+                            definiciones += String.valueOf(pair.first) + "." + def + ". ";
+                        }
+                        definiciones += "\nVERTICALES\n ";
+                        for (Pair<Integer, String> pair : crucigramaInstance.getVertiPairList()) {
+                            String def = crucigramaInstance.getDefiniciones().get(pair.second).split("\n")[0];
+                            definiciones += String.valueOf(pair.first) + "." + def + ". ";
+                        }
+                        Paragraph para = new Paragraph(definiciones, myfo);
+                        para.setAlignment(com.itextpdf.text.Element.ALIGN_JUSTIFIED);
+                        pdfDoc.add(para);
+
+                        pdfDoc.close();
+
+                    } catch (Exception ex) {
+                        System.out.println("EXCEPTION E: " + ex);
+                    }
+                }
+            }, IOFile.TipoDialog.SAVE);
+            saveFile.setLocationRelativeTo(this);
+            saveFile.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(mainPanel, "No hay ningun crucigrama para guardar", "Atención", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
     private void saveLocalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveLocalBtnActionPerformed
         if (crucigramaInstance != null) {
             IOFile saveFile = new IOFile(".slzd", "Crucigrama Serializado", (boolean success, File file) -> {

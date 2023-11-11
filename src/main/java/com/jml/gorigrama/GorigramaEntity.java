@@ -36,21 +36,35 @@ public class GorigramaEntity implements Serializable {
 
     Stack<Pair<Integer, Integer>> posStack = new Stack();
 
-    private int anchoCeldas = 1;
-    private int altoCeldas = 1;
+    private int numCeldasH = 1;
+    private int numCeldasV = 1;
 
+    private int offsety = 0;
+    private int offsetx = 0;
+/*
     public GorigramaEntity(String[][] palabrasArrayH, String[][] palabrasArrayV, List<String> horizontales, List<String> verticales, Integer[][] numeros) {
         this.palabrasArrayH = palabrasArrayH;
         this.palabrasArrayV = palabrasArrayV;
         this.horizontales = horizontales;
         this.verticales = verticales;
         this.numeros = numeros;
+    }*/
+    
+    public GorigramaEntity(int numCeldasV, int numCeldasH, int offsety, int offsetx) {
+        this.numCeldasH = numCeldasH;
+        this.numCeldasV = numCeldasV;
+        this.offsetx = offsetx;
+        this.offsety = offsety;
+        numeros = new Integer[numCeldasV][numCeldasH];
+
     }
 
-    public GorigramaEntity(int altoCeldas, int anchoCeldas) {
-        this.anchoCeldas = anchoCeldas;
-        this.altoCeldas = altoCeldas;
-        numeros = new Integer[altoCeldas][anchoCeldas];
+    public GorigramaEntity(int numCeldasV, int numCeldasH) {
+        this.numCeldasH = numCeldasH;
+        this.numCeldasV = numCeldasV;
+        this.offsetx = 0;
+        this.offsety = 0;
+        numeros = new Integer[numCeldasV][numCeldasH];
 
     }
 
@@ -76,28 +90,28 @@ public class GorigramaEntity implements Serializable {
     public Integer[][] generarNumeros() {
         horizPairsList = new ArrayList();
         vertiPairList = new ArrayList();
-        for (int i = 0; i < altoCeldas; i++) {
-            for (int j = 0; j < anchoCeldas; j++) {
+        for (int i = 0; i < numCeldasV; i++) {
+            for (int j = 0; j < numCeldasH; j++) {
                 numeros[i][j] = 0;
             }
         }
         int index = 1;
         int indexOfList = 0;
-        for (int i = 0; i < altoCeldas; i++) {
-            for (int j = 0; j < anchoCeldas; j++) {
+        for (int i = 0; i < numCeldasV; i++) {
+            for (int j = 0; j < numCeldasH; j++) {
                 if (!palabrasArrayH[i][j].equals(" ")) {
                     numeros[i][j] = index;
                     horizPairsList.add(new Pair<>(index, horizontales.get(indexOfList++)));
                     index++;
                 }
-                while (j < anchoCeldas - 1 && !palabrasArrayH[i][j].equals(" ")) {
+                while (j < numCeldasH - 1 && !palabrasArrayH[i][j].equals(" ")) {
                     j++;
                 }
             }
         }
         indexOfList = 0;
-        for (int j = 0; j < anchoCeldas; j++) {
-            for (int i = 0; i < altoCeldas; i++) {
+        for (int j = 0; j < numCeldasH; j++) {
+            for (int i = 0; i < numCeldasV; i++) {
                 // Controlar inicios de verticales y horizontales en la misma celda, que por ende comparten numero.
                 if (!palabrasArrayV[i][j].equals(" ")) {
                     if (numeros[i][j] == 0) {
@@ -108,7 +122,7 @@ public class GorigramaEntity implements Serializable {
                         vertiPairList.add(new Pair<>(numeros[i][j], verticales.get(indexOfList++)));
                     }
                 }
-                while (i < altoCeldas - 1 && !palabrasArrayV[i][j].equals(" ")) {
+                while (i < numCeldasV - 1 && !palabrasArrayV[i][j].equals(" ")) {
                     i++;
                 }
             }
@@ -119,24 +133,24 @@ public class GorigramaEntity implements Serializable {
     public void generar() throws FileNotFoundException, IOException {
         horizontales = new ArrayList();
         verticales = new ArrayList();
-        palabrasArrayH = new String[altoCeldas][anchoCeldas];
-        palabrasArrayV = new String[altoCeldas][anchoCeldas];
-        for (int i = 0; i < altoCeldas; i++) {
-            for (int j = 0; j < anchoCeldas; j++) {
+        palabrasArrayH = new String[numCeldasV][numCeldasH];
+        palabrasArrayV = new String[numCeldasV][numCeldasH];
+        for (int i = 0; i < numCeldasV; i++) {
+            for (int j = 0; j < numCeldasH; j++) {
                 palabrasArrayH[i][j] = " ";
                 palabrasArrayV[i][j] = " ";
             }
         }
-        for (int i = 0; i < altoCeldas; i++) {
+        for (int i = 0; i < numCeldasV; i++) {
             if (i % 2 == 0) {
-                palabrasArrayH[i] = encontrarPalabras(anchoCeldas, RepositorioPalabras.getPalabras(), alreadyTakenWords, true);
+                palabrasArrayH[i] = encontrarPalabras(numCeldasH, RepositorioPalabras.getPalabras(), alreadyTakenWords, true);
             }
         }
 
         refillVerticalWords(true);
-        imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayH);
+        imprimirPalabras(numCeldasV, numCeldasH, palabrasArrayH);
         System.out.println("           ");
-        imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayV);
+        imprimirPalabras(numCeldasV, numCeldasH, palabrasArrayV);
     }
 
     public void encontrarVerticales(String[][] palabrasArrayH, String[][] palabrasArrayV, int vertical, int alto, List<String> palabrasImpares, List<String> yaEncontradas) {
@@ -200,7 +214,7 @@ public class GorigramaEntity implements Serializable {
 
     public Pair<WordItem, WordItem> locateWords(int x, int y) {
 
-        if (y >= altoCeldas || y < 0 || x >= anchoCeldas || x < 0) {
+        if (y >= numCeldasV || y < 0 || x >= numCeldasH || x < 0) {
             System.out.println("INTRODUJO UNA COORDENADA NP VALIDA");
             return null;
         }
@@ -219,7 +233,7 @@ public class GorigramaEntity implements Serializable {
                 hx--;
             }
             inithX = hx;
-            while (hx != anchoCeldas && !palabrasArrayH[hy][hx].equals(" ")) {
+            while (hx != numCeldasH && !palabrasArrayH[hy][hx].equals(" ")) {
                 horizontalWord += palabrasArrayH[hy][hx];
                 hx++;
             }
@@ -239,7 +253,7 @@ public class GorigramaEntity implements Serializable {
                 vy--;
             }
             initvY = vy;
-            while (vy != altoCeldas && !palabrasArrayV[vy][vx].equals(" ")) {
+            while (vy != numCeldasV && !palabrasArrayV[vy][vx].equals(" ")) {
                 verticalWord += palabrasArrayV[vy][vx];
                 vy++;
             }
@@ -265,8 +279,8 @@ public class GorigramaEntity implements Serializable {
 
     public void actualizarHorizontales() {
         String tira = "";
-        for (int i = 0; i < altoCeldas; i++) {
-            for (int j = 0; j < anchoCeldas; j++) {
+        for (int i = 0; i < numCeldasV; i++) {
+            for (int j = 0; j < numCeldasH; j++) {
                 tira += palabrasArrayH[i][j];
             }
             tira += " ";
@@ -277,8 +291,8 @@ public class GorigramaEntity implements Serializable {
 
     public void actualizarVerticales() {
         String tira = "";
-        for (int j = 0; j < anchoCeldas; j++) {
-            for (int i = 0; i < altoCeldas; i++) {
+        for (int j = 0; j < numCeldasH; j++) {
+            for (int i = 0; i < numCeldasV; i++) {
                 tira += palabrasArrayV[i][j];
             }
             tira += " ";
@@ -294,7 +308,7 @@ public class GorigramaEntity implements Serializable {
     public void replaceHorizontals() {
         List<String> wordSource = RepositorioPalabras.getPalabras();
         Collections.shuffle(wordSource);
-        for (int i = 0; i < altoCeldas; i += 2) {
+        for (int i = 0; i < numCeldasV; i += 2) {
             List<String> candidates = new ArrayList();
             int[] indexes = getEmptySpaceIndexes(palabrasArrayH[i]);
             if (indexes[0] > 1) {
@@ -401,28 +415,28 @@ public class GorigramaEntity implements Serializable {
 
     public void refillVerticalWords(boolean allGrid) {
 
-        //imprimirPalabras(altoCeldas, anchoCeldas, palabrasArrayV);
+        //imprimirPalabras(numCeldasV, numCeldasH, palabrasArrayV);
         String newWord;
         boolean founded = false;
         boolean goodFit = true;
-   
+
         boolean continuar = true;
 
-        for (int j = 0; j < anchoCeldas && continuar; j += 2) {
+        for (int j = 0; j < numCeldasH && continuar; j += 2) {
             int init = 0, end = 0;
-            for (int i = 0; i < altoCeldas - 1 && continuar; i += 2) {
+            for (int i = 0; i < numCeldasV - 1 && continuar; i += 2) {
                 if (palabrasArrayV[i][j].equals(" ")) {
-                     init = i;
-                     end = i;
-                    while (end < altoCeldas-2  && palabrasArrayV[end +2][j].equals(" ")&& !palabrasArrayH[end+2][j].equals(" ")) {
-                        end+=2;
+                    init = i;
+                    end = i;
+                    while (end < numCeldasV - 2 && palabrasArrayV[end + 2][j].equals(" ") && !palabrasArrayH[end + 2][j].equals(" ")) {
+                        end += 2;
                     }
-                    int largo = end - init+1;
+                    int largo = end - init + 1;
                     if (largo < 3) {
                         continue;
                     }
                     List<String> wordSource = RepositorioPalabras.getPalabrasImpares();
-                    for (int k = 0;!founded && k < wordSource.size(); k++) {
+                    for (int k = 0; !founded && k < wordSource.size(); k++) {
                         newWord = RepositorioPalabras.getPalabrasImpares().get(k);
 
                         if (newWord.length() <= largo && !alreadyTakenWords.contains(newWord)) {
@@ -449,11 +463,10 @@ public class GorigramaEntity implements Serializable {
                 }
 
                 //REF OLD CODE 001
-      
                 founded = false;
             }
         }
-        //  imprimirPalabras(altoCeldas, anchoCeldas,palabrasArrayV);
+        //  imprimirPalabras(numCeldasV, numCeldasH,palabrasArrayV);
         actualizarVerticales();
 
     }
@@ -606,12 +619,12 @@ public class GorigramaEntity implements Serializable {
         return alreadyTakenWords;
     }
 
-    public int getAnchoCeldas() {
-        return anchoCeldas;
+    public int getNumCeldasH() {
+        return numCeldasH;
     }
 
-    public int getAltoCeldas() {
-        return altoCeldas;
+    public int getNumCeldasV() {
+        return numCeldasV;
     }
 
     public void setVerticales(List<String> verticales) {
@@ -638,12 +651,20 @@ public class GorigramaEntity implements Serializable {
         this.posStack = posStack;
     }
 
-    public void setAnchoCeldas(int anchoCeldas) {
-        this.anchoCeldas = anchoCeldas;
+    public void setNumCeldasH(int numCeldasH) {
+        this.numCeldasH = numCeldasH;
     }
 
-    public void setAltoCeldas(int altoCeldas) {
-        this.altoCeldas = altoCeldas;
+    public void setNumCeldasV(int numCeldasV) {
+        this.numCeldasV = numCeldasV;
+    }
+
+    public int getOffsety() {
+        return offsety;
+    }
+
+    public int getOffsetx() {
+        return offsetx;
     }
 
 }

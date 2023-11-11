@@ -30,6 +30,17 @@ the RAE words files.
 16/10
 Improved the algorithm for removing oddly ones, using the WordItem class
 
+27/10
+
+Saved crucigrams did not store the dimensions
+Sanitize string, simple quotes provoke SQL error 
+Continue PDF generation
+Simplify the definition generation mechanic. 
+Implement undo/redo feature.
+Reload 27_10_23_03 to add last added definitions
+
+
+
 
 
 java -jar Gorigrama-beta-jar-with-dependencies.jar
