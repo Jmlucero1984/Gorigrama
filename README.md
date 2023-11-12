@@ -1,5 +1,5 @@
 # Gorigrama
-Crucigram generator for mothers-in-law
+Crosswords puzzle generator for mothers-in-law
 A minimal functional application to generate cross word puzzle for old nannis, grannis and any other kind o annis.
 Has its origins in crosswords puzzles uprising prices concerns expressed by my mother-in-law.
 
