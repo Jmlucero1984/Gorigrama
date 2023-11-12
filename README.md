@@ -10,7 +10,11 @@ https://github.com/Jmlucero1984/Gorigrama/assets/91501518/04163905-5921-4013-81d
 
 ## PSeint Hybrid CommandLine+GUI - WindowsProject.psc
 *IN PROGRESS...*  
-https://github.com/Jmlucero1984/Gorigrama/assets/91501518/47bf49da-e6bd-433c-8d68-54db14ac5ca9
+
+https://github.com/Jmlucero1984/Gorigrama/assets/91501518/6c2ba0e8-1029-44d2-9550-549758c458c8
+
+
+ 
 - [x] Customize windows, options and descriptions
 - [x] Dynamically determined menu movement range
 - [x] Reusable window drawer
