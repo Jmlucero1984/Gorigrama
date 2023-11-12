@@ -3,10 +3,13 @@ Crosswords puzzle generator for mothers-in-law
 A minimal functional application to generate cross word puzzle for old nannis, grannis and any other kind o annis.
 Has its origins in crosswords puzzles uprising prices concerns expressed by my mother-in-law.
 
-
- https://github.com/Jmlucero1984/Gorigrama/blob/main/Gorigrama_a.mp4
  
-[<img src="https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg" width="50%">](https://www.youtube.com/watch?v=ImR0jo8mKl8 "Now in Android: 55")
+ 
+ 
+
+https://github.com/Jmlucero1984/Gorigrama/assets/91501518/bea9b3e9-d6cc-4666-b5bf-0be82c6498eb
+
+
 
 - [x] Customizable (row/columns) size
 - [x] Scrap definitions from WEB
