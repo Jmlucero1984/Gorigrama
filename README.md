@@ -5,10 +5,11 @@ Has its origins in crosswords puzzles uprising prices concerns expressed by my m
 
 
 
-https://github.com/Jmlucero1984/Gorigrama/assets/91501518/04163905-5921-4013-81d3-064a00640c68
-- [x] Customizable (row/columns)
+https://github.com/Jmlucero1984/Gorigrama/assets/91501518/3cb00b18-2053-4d89-9adb-deddbb52fac8
+
+- [x] Customizable (row/columns) size
 - [x] Scrap definitions from WEB
-- [x] Save/Load local puzzles
+- [x] Save/Load serialized puzzles locally
 - [x] Remove weird old spanish words
 - [x] Replace horizontal/vertical words
 - [x] Save jpg with solutions
@@ -26,7 +27,9 @@ https://github.com/Jmlucero1984/Gorigrama/assets/91501518/04163905-5921-4013-81d
 ## Word Tool for in place word substitution
 *IN PROGRESS...*  
 
-https://github.com/Jmlucero1984/Gorigrama/assets/91501518/6c2ba0e8-1029-44d2-9550-549758c458c8
+
+https://github.com/Jmlucero1984/Gorigrama/assets/91501518/e6e432d3-91b0-43fd-a546-58c2b73bb89f
+
 
 - [x] Check for word in repository/generated puzzle
 - [x] Add new word/Remove banneable 
