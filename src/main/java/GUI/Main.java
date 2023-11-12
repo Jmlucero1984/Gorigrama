@@ -214,7 +214,6 @@ public class Main extends javax.swing.JFrame {
         saveLocalBtn = new javax.swing.JButton();
         saveToRemoteBtn = new javax.swing.JButton();
         loadFromRemoteBtn = new javax.swing.JButton();
-        banWordCheckBox = new javax.swing.JCheckBox();
         wordToolsBtn = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         rightPanel = new javax.swing.JPanel();
@@ -329,7 +328,7 @@ public class Main extends javax.swing.JFrame {
         });
         leftPanel.add(saveImageBtn);
 
-        updateBtn.setText("Print");
+        updateBtn.setText("Print PDF");
         updateBtn.setMinimumSize(new java.awt.Dimension(150, 20));
         updateBtn.setPreferredSize(new java.awt.Dimension(150, 15));
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -378,15 +377,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         leftPanel.add(loadFromRemoteBtn);
-
-        banWordCheckBox.setText("Ban Word");
-        banWordCheckBox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        banWordCheckBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                banWordCheckBoxItemStateChanged(evt);
-            }
-        });
-        leftPanel.add(banWordCheckBox);
 
         wordToolsBtn.setText("Word Tool");
         wordToolsBtn.setMinimumSize(new java.awt.Dimension(150, 20));
@@ -653,11 +643,6 @@ public class Main extends javax.swing.JFrame {
         crucigramaInstance.generarDefiniciones();
     }//GEN-LAST:event_generarDefs
 
-    private void banWordCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_banWordCheckBoxItemStateChanged
-        System.out.println("BAN WORD " + (banWord ? "ENABLED" : "DISABLED"));
-        banWord = banWordCheckBox.isSelected(); // Por las dudas evito hacer cosas como *=-1 o el operador ^=
-    }//GEN-LAST:event_banWordCheckBoxItemStateChanged
-
     private void loadFromRemoteBtn(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFromRemoteBtn
 
         IOFile loadFile = new IOFile(".slzd", "Crucigrama Serializado", (boolean success, File file) -> {
@@ -790,9 +775,11 @@ public class Main extends javax.swing.JFrame {
                         pdfDoc.open();
                         com.itextpdf.text.Font myfo;
 
-                        FontFactory.register("src\\main\\resources\\fonts\\JetBrainsMono-Medium.ttf", "JetBrains");
+                        //FontFactory.register("src\\main\\resources\\fonts\\JetBrainsMono-Medium.ttf", "JetBrains");
+                        FontFactory.register("src\\main\\resources\\fonts\\RotisSemiSerifStd.otf", "RotisSS");
+                       
                         FontFactory.registerDirectory("src\\main\\resources\\fonts");
-                        myfo = FontFactory.getFont("jetbrains", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                        myfo = FontFactory.getFont("rotisss", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                         System.out.println("REGISTERED FONTS: " + FontFactory.getRegisteredFonts());
                         System.out.println("REGISTERED FAMILIES: " + FontFactory.getRegisteredFamilies());
 
@@ -904,7 +891,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox banWordCheckBox;
     private javax.swing.JButton defsBtn;
     private javax.swing.JButton drawGridBtn;
     private javax.swing.JButton generateBtn;

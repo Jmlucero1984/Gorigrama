@@ -196,6 +196,7 @@ public class GorigramaEntity implements Serializable {
                 palabrasArrayH[word.getInitY()][i] = " ";
             }
             alreadyTakenWords.remove(word.getWord());
+            definiciones.remove(word.getWord());
             replaceHorizontals();
             actualizarHorizontales();
 
@@ -205,6 +206,7 @@ public class GorigramaEntity implements Serializable {
                 palabrasArrayV[i][word.getInitX()] = " ";
             }
             alreadyTakenWords.remove(word.getWord());
+              definiciones.remove(word.getWord());
             refillVerticalWords(true);
             actualizarVerticales();
             //Does not return to the words source, it's supposed this is a oddly one

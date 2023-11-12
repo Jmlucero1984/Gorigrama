@@ -367,7 +367,7 @@ public class WordTool extends javax.swing.JFrame {
     private void indicesDeRestriccionesFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_indicesDeRestriccionesFieldKeyTyped
         int key = evt.getKeyChar();
 
-    boolean numeros = key >= 48 && key <= 57;
+    boolean numeros = key >= 48 && key <= 57 || key==44;
         
     if (!numeros)
     {

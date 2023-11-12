@@ -45,6 +45,7 @@ public class BundleMng {
         strMap.put("Load DB", "CARGAR DE DB");
         strMap.put("Save DB", "GUARDAR EN DB");
         strMap.put("Word Tool", "HERRAMIENTAS");
+        strMap.put("Print PDF", "GENERAR PDF");
         }
         return strMap;
     }
