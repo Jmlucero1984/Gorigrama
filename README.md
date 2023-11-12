@@ -7,6 +7,7 @@ Has its origins in crosswords puzzles uprising prices concerns expressed by my m
 
 //https://github.com/Jmlucero1984/Gorigrama/assets/91501518/3cb00b18-2053-4d89-9adb-deddbb52fac8
 https://www.youtube.com/watch?v=ImR0jo8mKl8
+[<img src="https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg" width="50%">](https://www.youtube.com/watch?v=ImR0jo8mKl8 "Now in Android: 55")
 
 - [x] Customizable (row/columns) size
 - [x] Scrap definitions from WEB
